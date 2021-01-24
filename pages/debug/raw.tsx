@@ -6,9 +6,9 @@ export default function Index() {
     reconnectInterval: 5000,
     shouldReconnect: () => true,
   })
-  const lastLinkMessage = useRef<{ identity?: string }>({})
-  lastLinkMessage.current = useMemo(
-    () => (lastJsonMessage && lastJsonMessage.type === 'link' ? lastJsonMessage : lastLinkMessage.current),
+  const messageHistory = useRef<{}[]>([])
+  messageHistory.current = useMemo(
+    () => (lastJsonMessage === null ? messageHistory.current : messageHistory.current.concat(lastJsonMessage)),
     [lastJsonMessage]
   )
 
@@ -23,9 +23,12 @@ export default function Index() {
   return (
     <div>
       <div>Connection: {connectionStatus}</div>
-      <div>Hey {lastLinkMessage.current.identity}</div>
       <div>Messages</div>
-      <div>{JSON.stringify(lastLinkMessage.current)}</div>
+      <div>
+        {messageHistory.current.map((message, idx) => (
+          <div key={idx}>{JSON.stringify(message)}</div>
+        ))}
+      </div>
     </div>
   )
 }

@@ -6,9 +6,12 @@ export default function Index() {
     reconnectInterval: 5000,
     shouldReconnect: () => true,
   })
-  const lastLinkMessage = useRef<{ identity?: string }>({})
-  lastLinkMessage.current = useMemo(
-    () => (lastJsonMessage && lastJsonMessage.type === 'link' ? lastJsonMessage : lastLinkMessage.current),
+  const messageHistory = useRef<{ skillname: string; buff: 0 | 1; is_activation: number }[]>([])
+  messageHistory.current = useMemo(
+    () =>
+      lastJsonMessage && lastJsonMessage.type === 'arc'
+        ? messageHistory.current.concat(lastJsonMessage)
+        : messageHistory.current,
     [lastJsonMessage]
   )
 
@@ -23,9 +26,16 @@ export default function Index() {
   return (
     <div>
       <div>Connection: {connectionStatus}</div>
-      <div>Hey {lastLinkMessage.current.identity}</div>
       <div>Messages</div>
-      <div>{JSON.stringify(lastLinkMessage.current)}</div>
+      <div>
+        {messageHistory.current
+          .filter((i) => i.buff === 0 && i.is_activation === 1)
+          .map((message, idx) => (
+            <div key={idx} title={JSON.stringify(message)}>
+              {message.skillname}
+            </div>
+          ))}
+      </div>
     </div>
   )
 }
