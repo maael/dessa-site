@@ -1,8 +1,8 @@
-import './styles.css'
+import '../styles/styles.css'
 import Head from 'next/head'
 import { DefaultSeo } from 'next-seo'
 import useFathom from '../components/hooks/useFathom'
-import SEO from '../next-seo.config'
+import SEO from '../../next-seo.config'
 import EmojiFavicon from '../components/primitives/EmojiFavicon'
 
 function App({ Component, pageProps }) {
