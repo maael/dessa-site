@@ -21,7 +21,7 @@ export default function ConnectionStatus({ state, title }: { state: ReadyState; 
   return (
     <div
       className="text-4xl absolute top-5 right-5"
-      style={{ cursor: 'help' }}
+      style={{ cursor: 'help', zIndex: 999 }}
       title={`${connectionTitleMap[state]}${title ? ` - ${title}` : ''}`}
     >
       {connectionIconMap[state]}

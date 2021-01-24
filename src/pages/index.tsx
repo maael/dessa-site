@@ -8,6 +8,7 @@ import { LinkData } from '../types'
 export default function Index() {
   const { readyState, lastJsonMessage } = useWebSocket('ws://localhost:3012', {
     reconnectInterval: 5000,
+    reconnectAttempts: Infinity,
     shouldReconnect: () => true,
   })
   const lastLinkMessage = useRef<LinkData | null>(null)
