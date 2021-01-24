@@ -2,7 +2,7 @@ import { useEffect } from 'react'
 import { useRouter } from 'next/router'
 import * as Fathom from 'fathom-client'
 
-const ID = process.env.FATHOM_ID || ''
+const ID = process.env.NEXT_PUBLIC_FATHOM_ID || ''
 
 export default function useFathom() {
   const router = useRouter()

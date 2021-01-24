@@ -1,6 +1,6 @@
-const title = 'Matt Elphick | Software Engineer'
-const description = 'Software engineer mainly messing around with JavaScript.'
-const url = 'https://mael.tech/'
+const title = 'Dessa | A plugin to open up Guild Wars 2'
+const description = 'A plugin to open up Guild Wars 2.'
+const url = 'https://dessa.mael.tech/'
 
 module.exports = {
   title,

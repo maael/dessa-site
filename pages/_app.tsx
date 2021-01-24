@@ -11,11 +11,11 @@ function App({ Component, pageProps }) {
     <>
       <Head>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <meta name="theme-color" content="#fd015d" />
+        <meta name="theme-color" content="#93C5FD" />
       </Head>
       <DefaultSeo {...SEO} />
       <Component {...pageProps} />
-      <EmojiFavicon emoji="🤖" />
+      <EmojiFavicon emoji="🔌" />
     </>
   )
 }
