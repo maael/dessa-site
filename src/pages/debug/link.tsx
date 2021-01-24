@@ -15,9 +15,7 @@ export default function Index() {
 
   return (
     <div>
-      <div>
-        Connection: <ConnectionStatus state={readyState} />
-      </div>
+      <ConnectionStatus title={JSON.stringify(lastLinkMessage)} state={readyState} />
       <div>Hey {lastLinkMessage.current.identity?.name}</div>
       <div>Messages</div>
       <div>{JSON.stringify(lastLinkMessage.current)}</div>

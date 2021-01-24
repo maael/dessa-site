@@ -18,9 +18,7 @@ export default function Index() {
 
   return (
     <div>
-      <div>
-        Connection: <ConnectionStatus state={readyState} />
-      </div>
+      <ConnectionStatus title={JSON.stringify(messageHistory.current[0] || '{}')} state={readyState} />
       <div title={JSON.stringify(messageHistory.current[0] || '{}')}>Messages</div>
       <div>
         {messageHistory.current
