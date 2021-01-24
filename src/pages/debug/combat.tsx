@@ -26,7 +26,7 @@ export default function Index() {
   return (
     <div>
       <div>Connection: {connectionStatus}</div>
-      <div>Messages</div>
+      <div title={JSON.stringify(messageHistory.current[0] || '{}')}>Messages</div>
       <div>
         {messageHistory.current
           .filter((i) => i.buff === 0 && i.is_activation === 1)
