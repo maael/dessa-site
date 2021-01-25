@@ -122,3 +122,27 @@ select {
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Tailwind */
+@layer utilities {
+  .text-gradient {
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+}
+
+.card {
+  @apply flex flex-col justify-center items-center text-center shadow-lg rounded-md bg-blue-900 text-white pr-4 pl-4 pt-6 pb-6 transform hover:translate-y-1 transition-all cursor-pointer;
+}
+
+.card-icon-area {
+  @apply w-20 h-20 rounded-full bg-gray-100 mb-3 text-blue-400 flex justify-center items-center text-4xl;
+}
+
+.title {
+  @apply text-gradient bg-gradient-to-br from-blue-200 via-blue-500 to-indigo-800 font-bold uppercase mt-7 mb-2;
+}
+
+.button {
+  @apply shadow-lg cursor-pointer transform hover:translate-y-1 transition-all select-none hover:bg-blue-500 rounded-md bg-blue-400 text-white pr-5 pl-5 pt-2 pb-2 flex justify-center items-center;
+}
