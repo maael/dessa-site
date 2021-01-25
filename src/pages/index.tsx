@@ -5,6 +5,7 @@ import classnames from 'classnames'
 import { HiArrowCircleRight, HiEye, HiCog, HiUserGroup } from 'react-icons/hi'
 import { professionMap, mountMap, raceMap } from '../../data/link'
 import ConnectionStatus from '../components/primitives/ConnectionStatus'
+import Spinner from '../components/primitives/Spinner'
 import { LinkData } from '../types'
 
 export default function Index() {
@@ -46,28 +47,36 @@ export default function Index() {
         </div>
       ) : null}
       <ConnectionStatus title={JSON.stringify(lastLinkMessage)} state={readyState} />
-      <div className="bg-gray-800 flex-1 flex flex-col items-center pb-10">
-        <div className="title text-6xl mt-5 mb-5">Dessa</div>
-        <div className="flex flex-col p-5 items-center text-center">
-          <div
-            className={classnames('shadow-lg rounded-md bg-blue-900 text-white pr-5 pl-5 pt-2 pb-2 mb-4', {
-              'animate-pulse': readyState !== ReadyState.OPEN,
-            })}
-          >
-            {readyState !== ReadyState.OPEN ? (
-              'Waiting for connection'
-            ) : (
-              <>
-                Hey {identity?.name}, a {identity ? raceMap[identity.race] : '?'}{' '}
-                {specData && specData.elite ? specData.name : ''} {identity ? professionMap[identity.profession] : '?'}
-                {context && context.mount_index ? ` on a ${mountMap[context.mount_index]}` : ''}
-                {mapData ? ` in ${mapData.name}` : ''}
-              </>
-            )}
+      <div className="bg-gray-800 flex-1 flex flex-col items-center pb-10" style={{ zIndex: -10 }}>
+        <div className="mt-2 relative">
+          <div className="mt-16">
+            <div className="title text-6xl text-center">Dessa</div>
+            <div className="flex flex-col p-5 items-center text-center">
+              <div
+                className={classnames('shadow-lg rounded-md bg-blue-900 text-white pr-5 pl-5 pt-2 pb-2 mb-4', {
+                  'animate-pulse': readyState !== ReadyState.OPEN,
+                })}
+              >
+                {readyState !== ReadyState.OPEN ? (
+                  'Waiting for connection'
+                ) : (
+                  <>
+                    Hey {identity?.name}, a {identity ? raceMap[identity.race] : '?'}{' '}
+                    {specData && specData.elite ? specData.name : ''}{' '}
+                    {identity ? professionMap[identity.profession] : '?'}
+                    {context && context.mount_index ? ` on a ${mountMap[context.mount_index]}` : ''}
+                    {mapData ? ` in ${mapData.name}` : ''}
+                  </>
+                )}
+              </div>
+            </div>
+            <div className="absolute top-0 left-0" style={{ zIndex: -1 }}>
+              <Spinner />
+            </div>
           </div>
-          <div className="button">
-            Get started <HiArrowCircleRight className="ml-2 text-xl" />
-          </div>
+        </div>
+        <div className="button">
+          Get started <HiArrowCircleRight className="ml-2 text-xl" />
         </div>
         <div className="flex flex-col justify-center items-center">
           <div className="title text-4xl">What is it?</div>
