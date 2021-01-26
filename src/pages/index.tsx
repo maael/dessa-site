@@ -70,7 +70,10 @@ export default function Index() {
                 )}
               </div>
             </div>
-            <div className="absolute top-0 left-0" style={{ zIndex: -1 }}>
+            <div
+              className="absolute top-0"
+              style={{ zIndex: -1, left: 'calc(50% + 0.05em)', transform: 'translateX(-50%)' }}
+            >
               <Spinner />
             </div>
           </div>

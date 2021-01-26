@@ -3,7 +3,7 @@ export default function Spinner() {
     <div className="h-40 w-40 m-5 relative">
       <div className="animate-spin w-full h-full t-0 l-0 absolute slow-4">
         <div className="circle-container">
-          <div className="circle">
+          <div className="circle circle-90">
             <div className="arc border-blue-800 arc-w-05"></div>
           </div>
         </div>
