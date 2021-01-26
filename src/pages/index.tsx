@@ -47,8 +47,8 @@ export default function Index() {
         </div>
       ) : null}
       <ConnectionStatus title={JSON.stringify(lastLinkMessage)} state={readyState} />
-      <div className="bg-gray-800 flex-1 flex flex-col items-center pb-10" style={{ zIndex: -10 }}>
-        <div className="mt-2 relative">
+      <div className="bg-gray-800 flex-1 flex flex-col items-center pb-10">
+        <div className="mt-2 relative z-10">
           <div className="mt-16">
             <div className="title text-6xl text-center">Dessa</div>
             <div className="flex flex-col p-5 items-center text-center">
