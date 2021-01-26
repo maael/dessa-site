@@ -123,6 +123,26 @@ select {
 @tailwind components;
 @tailwind utilities;
 
+/* Gw2 Colours */
+
+:root {
+  --guardian: #8af7f5;
+  --revenant: #a66356;
+  --warrior: #f4983d;
+  --engineer: #f4b362;
+  --ranger: #776f1b;
+  --thief: #974550;
+  --elementalist: #903b24;
+  --mesmer: #b679d5;
+  --necromancer: #456c40;
+
+  --human: #ffe566;
+  --charr: #fe7887;
+  --asuran: #a27bf1;
+  --norn: #75baff;
+  --syvlari: #61e665;
+}
+
 /* Tailwind */
 @layer utilities {
   .text-gradient {

@@ -1,35 +1,16 @@
-import { useMemo, useRef } from 'react'
-import useWebSocket, { ReadyState } from 'react-use-websocket'
-import useSWR from 'swr'
+import Image from 'next/image'
+import { ReadyState } from 'react-use-websocket'
 import classnames from 'classnames'
 import { HiArrowCircleRight, HiEye, HiCog, HiUserGroup } from 'react-icons/hi'
-import { professionMap, mountMap, raceMap } from '../../data/link'
 import ConnectionStatus from '../components/primitives/ConnectionStatus'
 import Spinner from '../components/primitives/Spinner'
-import { LinkData } from '../types'
+import useLink from '../components/hooks/useLink'
 
 export default function Index() {
-  const { readyState, lastJsonMessage } = useWebSocket('ws://localhost:3012', {
-    reconnectInterval: 5000,
-    reconnectAttempts: Infinity,
-    shouldReconnect: () => true,
-  })
-  const lastLinkMessage = useRef<LinkData | null>(null)
-  lastLinkMessage.current = useMemo(
-    () => (lastJsonMessage && lastJsonMessage.type === 'link' ? lastJsonMessage : lastLinkMessage.current),
-    [lastJsonMessage]
-  )
-  const { data: specData } = useSWR(
-    lastLinkMessage.current
-      ? `https://api.guildwars2.com/v2/specializations/${lastLinkMessage.current.identity.spec}`
-      : null
-  )
-  const { data: mapData } = useSWR(
-    lastLinkMessage.current ? `https://api.guildwars2.com/v2/maps/${lastLinkMessage.current.context.map_id}` : null
-  )
+  const { link, mapData, specData, readyState } = useLink()
 
-  const identity = lastLinkMessage.current?.identity
-  const context = lastLinkMessage.current?.context
+  const identity = link?.identity
+  const context = link?.context
 
   return (
     <div className="h-full flex flex-col">
@@ -46,7 +27,7 @@ export default function Index() {
           and put them in your GW2 bin64 folder
         </div>
       ) : null}
-      <ConnectionStatus title={JSON.stringify(lastLinkMessage)} state={readyState} />
+      <ConnectionStatus title={JSON.stringify(link)} state={readyState} />
       <div className="bg-gray-800 flex-1 flex flex-col items-center pb-10">
         <div className="mt-2 relative z-10">
           <div className="mt-16">
@@ -61,10 +42,9 @@ export default function Index() {
                   'Waiting for connection'
                 ) : (
                   <>
-                    Hey {identity?.name}, a {identity ? raceMap[identity.race] : '?'}{' '}
-                    {specData && specData.elite ? specData.name : ''}{' '}
-                    {identity ? professionMap[identity.profession] : '?'}
-                    {context && context.mount_index ? ` on a ${mountMap[context.mount_index]}` : ''}
+                    Hey {identity?.name}, a {identity?.raceName || ''} {specData && specData.elite ? specData.name : ''}{' '}
+                    {identity?.professionName || ''}
+                    {context?.mountName ? ` on a ${context.mountName}` : ''}
                     {mapData ? ` in ${mapData.name}` : ''}
                   </>
                 )}
@@ -85,10 +65,13 @@ export default function Index() {
           <div className="title text-4xl">What is it?</div>
         </div>
         <div className="flex justify-center items-center mt-2 w-full">
-          <div className="w-full grid gap-10 md:gap-20 grid-cols-1 md:grid-cols-5 place-content-center mr-2 ml-2">
-            <div className="md:col-start-2 col-span-3 flex flex-col justify-center items-center text-center shadow-lg rounded-md bg-blue-900 text-white pr-4 pl-4 pt-6 pb-6">
+          <div className="w-full grid gap-10 md:gap-20 grid-cols-1 md:grid-cols-5 xl:grid-cols-7 place-content-center mr-2 ml-2">
+            <div className="md:col-start-2 xl:col-start-3 col-span-3 flex flex-col justify-center items-center text-center shadow-lg rounded-md bg-blue-900 text-white pr-4 pl-4 pt-6 pb-6">
+              <div className="mb-2">
+                <Image src="/images/gw2.png" width={200} height={200} />
+              </div>
               A tool to help open up all the data about you playing Guild Wars 2, so it can be used to create
-              interesting tools that react to what's actually happening in the game.
+              interesting tools that react to what's actually happening in the game as you play.
             </div>
           </div>
         </div>
@@ -106,8 +89,8 @@ export default function Index() {
               <div className="card-icon-area">
                 <HiUserGroup />
               </div>
-              Fractcal speed clears, track different group compositions and fight against each other on the
-              leaderboards, including number of times your team goes downstate.
+              Fractal speed clears, track different group compositions and fight against each other on the leaderboards,
+              including number of times your team goes downstate.
             </a>
             <a href="/debug/raw" className="card">
               <div className="card-icon-area">
@@ -123,16 +106,42 @@ export default function Index() {
         </div>
         <div className="flex flex-col justify-center items-center mt-5 w-full">
           <div className="title text-4xl">Installation</div>
-          <div className="w-full grid gap-10 md:gap-20 grid-cols-1 md:grid-cols-5 mt-1 place-content-center mr-2 ml-2">
-            <div className="md:col-start-2 col-span-3 flex flex-col justify-center items-center text-center shadow-lg rounded-md bg-blue-900 text-white pr-4 pl-4 pt-6 pb-6">
-              Some content goes here.
+          <div className="w-full grid gap-10 md:gap-20 grid-cols-1 md:grid-cols-5 xl:grid-cols-7 place-content-center mr-2 ml-2">
+            <div className="md:col-start-2 xl:col-start-3 col-span-3 flex flex-col justify-center items-center text-center shadow-lg rounded-md bg-blue-900 text-white pr-4 pl-4 pt-6 pb-6">
+              <ol>
+                <li>
+                  Download{' '}
+                  <a
+                    className="font-bold hover:underline text-blue-400"
+                    href="https://www.deltaconnected.com/arcdps/x64/"
+                  >
+                    ArcDps (d3d9.dll)
+                  </a>
+                </li>
+                <li>
+                  Download{' '}
+                  <a
+                    className="font-bold hover:underline text-blue-400"
+                    href="http://github.com/maael/dessa/releases/latest"
+                  >
+                    Dessa (dessa.dll)
+                  </a>
+                </li>
+                <li>
+                  Right click on d3d9.dll and dessa.dll and view properties, and click on {'"'}Unblock{'"'} for each,
+                  and click apply
+                </li>
+                <li>Move to your Guild Wars 2 bin64 folder</li>
+                <li>Start up the game and the message at the top of the page should change</li>
+                <li>You're good to go, that's it!</li>
+              </ol>
             </div>
           </div>
         </div>
         <div className="flex flex-col justify-center items-center mt-5 w-full">
           <div className="title text-4xl">FAQs</div>
-          <div className="w-full grid gap-10 md:gap-20 grid-cols-1 md:grid-cols-5 mt-1 place-content-center mr-2 ml-2">
-            <div className="md:col-start-2 col-span-3 flex flex-col justify-center items-center text-center shadow-lg rounded-md bg-blue-900 text-white pr-4 pl-4 pt-6 pb-6">
+          <div className="w-full grid gap-10 md:gap-20 grid-cols-1 md:grid-cols-5 xl:grid-cols-7 place-content-center mr-2 ml-2">
+            <div className="md:col-start-2 xl:col-start-3 col-span-3 flex flex-col justify-center items-center text-center shadow-lg rounded-md bg-blue-900 text-white pr-4 pl-4 pt-6 pb-6">
               Some content goes here.
             </div>
           </div>
