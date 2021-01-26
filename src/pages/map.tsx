@@ -2,7 +2,7 @@ import { useMemo, useRef } from 'react'
 import dynamic from 'next/dynamic'
 import useWebSocket from 'react-use-websocket'
 import ConnectionStatus from '../components/primitives/ConnectionStatus'
-import { LinkData } from '../types'
+import { LinkData } from '../types/dessa'
 
 const Map = dynamic(async () => import('../components/primitives/Map'), {
   ssr: false,
