@@ -20,7 +20,7 @@ const connectionTitleMap = {
 export default function ConnectionStatus({ state, title }: { state: ReadyState; title?: string }) {
   return (
     <div
-      className="text-4xl absolute top-5 right-5"
+      className="text-4xl fixed top-5 right-5"
       style={{ cursor: 'help', zIndex: 999 }}
       title={`${connectionTitleMap[state]}${title ? ` - ${title}` : ''}`}
     >

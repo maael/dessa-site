@@ -52,7 +52,7 @@ function Player({ x = 0, y = 0 }: { x?: number; y?: number }) {
   useEffect(() => {
     map.setView(unproject([x, y]), map.getZoom())
   }, [map, x, y, unproject])
-  return (
+  return x === 0 && y === 0 ? null : (
     <Circle
       center={unproject([x, y])}
       radius={markerZoomLevelSize[map.getZoom()]}
