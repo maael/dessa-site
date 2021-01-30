@@ -7,7 +7,7 @@ import Spinner from '../components/primitives/Spinner'
 import useLink from '../components/hooks/useLink'
 
 export default function Index() {
-  const { link, mapData, specData, readyState } = useLink()
+  const { link, mapData, specData, continentData, readyState } = useLink()
 
   const identity = link?.identity
   const context = link?.context
@@ -45,7 +45,13 @@ export default function Index() {
                     Hey {identity?.name}, a {identity?.raceName || ''} {specData && specData.elite ? specData.name : ''}{' '}
                     {identity?.professionName || ''}
                     {context?.mountName ? ` on a ${context.mountName}` : ''}
-                    {mapData ? ` in ${mapData.name}` : ''}
+                    {mapData
+                      ? ` in ${
+                          mapData.name === 'Fractals of the Mists'
+                            ? Object.values(continentData?.sectors || {})[0]?.name || mapData.name
+                            : mapData.name
+                        }`
+                      : ''}
                   </>
                 )}
               </div>

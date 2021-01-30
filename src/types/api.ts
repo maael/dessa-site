@@ -23,3 +23,29 @@ export interface ApiSpec {
   icon: string
   background: string
 }
+
+export interface ApiContinent {
+  name: string
+  min_level: number
+  max_level: number
+  default_floor: number
+  label_coord: [number, number]
+  map_rect: [[number, number], [number, number]]
+  continent_rect: [[number, number], [number, number]]
+  points_of_interest: unknown
+  tasks: unknown
+  skill_challenges: unknown[]
+  sectors: {
+    [k: string]: {
+      name: string
+      level: number
+      coord: [number, number]
+      bounds: [number, number][]
+      id: number
+      chat_link: string
+    }
+  }
+  adventures: unknown[]
+  id: number
+  mastery_points: unknown[]
+}
