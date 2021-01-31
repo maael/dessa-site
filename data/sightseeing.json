@@ -5,8 +5,24 @@
     "startdate": "",
     "enddate": "",
     "locations": [
-      { "id": "initial_1", "coords": [], "hint": "A big charr statue" },
-      { "id": "initial_2", "coords": [], "hint": "The city built by Gwen" }
+      {
+        "id": "initial_1",
+        "player": {
+          "x": 26586.28,
+          "y": 14703.3
+        },
+        "avatarPosition": [-335.11, 53.41, -67.85],
+        "hint": "A big charr statue, aflame with victory"
+      },
+      {
+        "id": "initial_2",
+        "player": {
+          "x": 29443.17,
+          "y": 18352.49
+        },
+        "avatarPosition": [-466.24, 61.81, -341.67],
+        "hint": "The city built by Gwen, watched over like hawks"
+      }
     ]
   },
   "second": {
@@ -15,8 +31,24 @@
     "startdate": "",
     "enddate": "",
     "locations": [
-      { "id": "initial_1", "coords": [], "hint": "A big charr statue" },
-      { "id": "initial_2", "coords": [], "hint": "The city built by Gwen" }
+      {
+        "id": "initial_1",
+        "player": {
+          "x": 26586.28,
+          "y": 14703.3
+        },
+        "avatarPosition": [-335.11, 53.41, -67.85],
+        "hint": "A big charr statue, aflame with victory"
+      },
+      {
+        "id": "initial_2",
+        "player": {
+          "x": 29443.17,
+          "y": 18352.49
+        },
+        "avatarPosition": [-466.24, 61.81, -341.67],
+        "hint": "The city built by Gwen, watched over like hawks"
+      }
     ]
   }
 }

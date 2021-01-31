@@ -10,6 +10,10 @@ export interface SightseeingEntry {
   locations?: {
     id: string
     hint: string
-    coords: [number, number]
+    player: {
+      x: number
+      y: number
+    }
+    avatarPosition: [number, number, number]
   }[]
 }
