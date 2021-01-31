@@ -21,10 +21,11 @@ export default function useLink() {
     },
   })
   const lastLinkMessage = useRef<LinkData | null>(null)
-  lastLinkMessage.current = useMemo(
-    () => (lastJsonMessage && lastJsonMessage.type === 'link' ? lastJsonMessage : lastLinkMessage.current),
-    [lastJsonMessage]
-  )
+  lastLinkMessage.current = useMemo(() => {
+    if (!lastJsonMessage || lastJsonMessage.type !== 'link') return lastLinkMessage.current
+    delete lastJsonMessage.context.server_address
+    return lastJsonMessage
+  }, [lastJsonMessage])
   const { data: specData } = useSWR<ApiSpec>(
     lastLinkMessage.current
       ? `https://api.guildwars2.com/v2/specializations/${lastLinkMessage.current.identity.spec}`

@@ -1,22 +1,28 @@
-import { useMemo, useRef } from 'react'
-import useWebSocket from 'react-use-websocket'
+import Link from 'next/link'
+import useLink from '../../components/hooks/useLink'
+import HeaderNav from '../../components/primitives/HeaderNav'
 
 export default function Index() {
-  const { lastJsonMessage } = useWebSocket('ws://localhost:3012', {
-    reconnectInterval: 5000,
-    shouldReconnect: () => true,
-  })
-  const lastLinkMessage = useRef<{ identity?: { name: string } }>({})
-  lastLinkMessage.current = useMemo(
-    () => (lastJsonMessage && lastJsonMessage.type === 'link' ? lastJsonMessage : lastLinkMessage.current),
-    [lastJsonMessage]
-  )
+  const { link } = useLink()
 
   return (
     <div>
-      <div>Hey {lastLinkMessage.current.identity?.name}</div>
-      <div>Messages</div>
-      <div>{JSON.stringify(lastLinkMessage.current)}</div>
+      <HeaderNav />
+      <div className="title text-center text-4xl">{link?.identity.name} Debug Info</div>
+      <div className="title text-center text-2xl pb-5 flex flex-row justify-around">
+        <Link href="/debug/raw">
+          <a>Raw</a>
+        </Link>
+        <Link href="/debug/link">
+          <a>Link</a>
+        </Link>
+        <Link href="/debug/combat">
+          <a>Combat</a>
+        </Link>
+      </div>
+      <code>
+        <pre>{JSON.stringify(link, undefined, 2)}</pre>
+      </code>
     </div>
   )
 }

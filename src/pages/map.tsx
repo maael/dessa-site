@@ -22,7 +22,7 @@ export default function Index() {
   )
 
   return process.browser && typeof window !== 'undefined' ? (
-    <div className="h-full w-full overflow-hidden">
+    <div className="absolute top-0 right-0 bottom-0 left-0">
       <Map playerX={lastLinkMessage.current?.context.player_x} playerY={lastLinkMessage.current?.context.player_y} />
       <ConnectionStatus title={JSON.stringify(lastLinkMessage)} />
     </div>

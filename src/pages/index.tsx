@@ -1,4 +1,5 @@
 import Image from 'next/image'
+import Link from 'next/link'
 import { HiArrowCircleRight, HiEye, HiCog, HiUserGroup } from 'react-icons/hi'
 import ConnectionWelcome from '../components/primitives/ConnectionWelcome'
 import Spinner from '../components/primitives/Spinner'
@@ -38,33 +39,39 @@ export default function Index() {
         <div className="flex flex-col justify-center items-center">
           <div className="title text-4xl">Tools</div>
           <div className="grid gap-5 md:gap-10 grid-cols-1 lg:grid-cols-3 xl:grid-cols-5 mt-1 place-content-center mr-2 ml-2 md:mr-10 md:ml-10">
-            <a href="/sightseeing" className="xl:col-start-2 card">
-              <div className="card-icon-area">
-                <HiEye />
-              </div>
-              <div className="flex-1">
-                Sightseeing logs, find points in the world from pictures and text clues. New ones released each week,
-                race to find them first with live leaderboards.
-              </div>
-            </a>
-            <a href="/map" className="card">
-              <div className="card-icon-area">
-                <HiUserGroup />
-              </div>
-              <div className="flex-1">
-                Fractal speed clears, track different group compositions and fight against each other on the
-                leaderboards, including number of times your team goes downstate.
-              </div>
-            </a>
-            <a href="/debug/raw" className="card">
-              <div className="card-icon-area">
-                <HiCog />
-              </div>
-              <div className="flex-1">
-                Debug tools to help test that Dessa is setup correctly, showing you everything that gets collected. Can
-                be helpful if you want to write a tool using dessa too.
-              </div>
-            </a>
+            <Link href="/sightseeing">
+              <a className="xl:col-start-2 card">
+                <div className="card-icon-area">
+                  <HiEye />
+                </div>
+                <div className="flex-1">
+                  Sightseeing logs, find points in the world from pictures and text clues. New ones released each week,
+                  race to find them first with live leaderboards.
+                </div>
+              </a>
+            </Link>
+            <Link href="/map">
+              <a className="card">
+                <div className="card-icon-area">
+                  <HiUserGroup />
+                </div>
+                <div className="flex-1">
+                  Fractal speed clears, track different group compositions and fight against each other on the
+                  leaderboards, including number of times your team goes downstate.
+                </div>
+              </a>
+            </Link>
+            <Link href="/debug/raw">
+              <a className="card">
+                <div className="card-icon-area">
+                  <HiCog />
+                </div>
+                <div className="flex-1">
+                  Debug tools to help test that Dessa is setup correctly, showing you everything that gets collected.
+                  Can be helpful if you want to write a tool using dessa too.
+                </div>
+              </a>
+            </Link>
           </div>
           <div className="button mt-4">
             More tools <HiArrowCircleRight className="ml-2 text-xl" />
@@ -115,9 +122,9 @@ export default function Index() {
                   This seems pretty cool, I'd like to make something with the data!
                 </div>
                 Sounds great! Check out the docs{' '}
-                <a className="font-bold hover:underline text-blue-400" href="/dev/docs">
-                  here →
-                </a>
+                <Link href="/dev/docs">
+                  <a className="font-bold hover:underline text-blue-400">here →</a>
+                </Link>
                 .
               </div>
             </div>

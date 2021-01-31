@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import Spinner from './Spinner'
 
 export default function HeaderNav() {
@@ -8,16 +9,24 @@ export default function HeaderNav() {
       </div>
       <div className="z-50 flex items-center md:-mt-5">
         <div className="title text-3xl pl-2 pr-5 hidden md:block">
-          <a href="/">Dessa</a>
+          <Link href="/">
+            <a>Dessa</a>
+          </Link>
         </div>
         <div className="title text-1xl pr-4">
-          <a href="/sightseeing">Sightseeing</a>
+          <Link href="/sightseeing">
+            <a>Sightseeing</a>
+          </Link>
         </div>
         <div className="title text-1xl pr-4">
-          <a href="/map">Fractals</a>
+          <Link href="/map">
+            <a>Fractals</a>
+          </Link>
         </div>
         <div className="title text-1xl pr-4">
-          <a href="/debug/raw">Debug</a>
+          <Link href="/debug/raw">
+            <a>Debug</a>
+          </Link>
         </div>
       </div>
     </div>
