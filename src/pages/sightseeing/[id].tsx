@@ -1,10 +1,11 @@
 import { useEffect, useState } from 'react'
+import Link from 'next/link'
 import useLink from '../../components/hooks/useLink'
 import useNativeNotifications from '../../components/hooks/useNativeNotifications'
 import HeaderNav from '../../components/primitives/HeaderNav'
 import { SightseeingList, SightseeingEntry } from '../../types/props'
 
-export default function Sightseeing({ entry }: { entry: SightseeingEntry }) {
+export default function Sightseeing({ entry }: { entry: SightseeingEntry & { id: string } }) {
   const { link } = useLink()
   const [found, setFound] = useState<string[]>([])
   const { sendNotification, requestPermission, allowed: allowedNotifications } = useNativeNotifications()
@@ -30,13 +31,16 @@ export default function Sightseeing({ entry }: { entry: SightseeingEntry }) {
       <HeaderNav />
       <div className="title text-6xl text-center">{entry.name}</div>
       <div className="title text-2xl text-center">{entry.description}</div>
-      {allowedNotifications ? null : (
-        <div className="flex flex-col justify-center items-center">
+      <div className="flex flex-col justify-center items-center">
+        <Link href={`/sightseeing/${entry.id}/leaderboard`}>
+          <a className="button mt-2">View leaderboard →</a>
+        </Link>
+        {allowedNotifications ? null : (
           <button className="button mt-2" onClick={requestPermission}>
             Allow notifications?
           </button>
-        </div>
-      )}
+        )}
+      </div>
       <div className="title text-2xl text-center">Found</div>
       <div className="flex flex-col justify-center items-center mt-5 w-full pr-2 pl-2">
         {(entry.locations || [])
@@ -82,6 +86,6 @@ export async function getStaticPaths() {
 export async function getStaticProps({ params }) {
   const sightseeingInfo: SightseeingList = require('../../../data/sightseeing.json')
   return {
-    props: { entry: sightseeingInfo[params.id] },
+    props: { entry: { ...sightseeingInfo[params.id], id: params.id } },
   }
 }
