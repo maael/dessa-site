@@ -10,7 +10,7 @@ const Map = dynamic(async () => import('../components/primitives/Map'), {
 })
 
 export default function Index() {
-  const { readyState, lastJsonMessage } = useWebSocket('ws://localhost:3012', {
+  const { lastJsonMessage } = useWebSocket('ws://localhost:3012', {
     reconnectInterval: 5000,
     reconnectAttempts: Infinity,
     shouldReconnect: () => true,
@@ -24,7 +24,7 @@ export default function Index() {
   return process.browser && typeof window !== 'undefined' ? (
     <div className="h-full w-full overflow-hidden">
       <Map playerX={lastLinkMessage.current?.context.player_x} playerY={lastLinkMessage.current?.context.player_y} />
-      <ConnectionStatus title={JSON.stringify(lastLinkMessage)} state={readyState} />
+      <ConnectionStatus title={JSON.stringify(lastLinkMessage)} />
     </div>
   ) : null
 }

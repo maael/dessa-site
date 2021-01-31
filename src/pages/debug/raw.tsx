@@ -1,9 +1,8 @@
 import { useMemo, useRef } from 'react'
 import useWebSocket from 'react-use-websocket'
-import ConnectionStatus from '../../components/primitives/ConnectionStatus'
 
 export default function Index() {
-  const { readyState, lastJsonMessage } = useWebSocket('ws://localhost:3012', {
+  const { lastJsonMessage } = useWebSocket('ws://localhost:3012', {
     reconnectInterval: 5000,
     shouldReconnect: () => true,
   })
@@ -15,7 +14,6 @@ export default function Index() {
 
   return (
     <div>
-      <ConnectionStatus title={JSON.stringify(lastJsonMessage)} state={readyState} />
       <div>Messages</div>
       <div>
         {messageHistory.current.map((message, idx) => (

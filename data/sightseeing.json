@@ -1,0 +1,22 @@
+{
+  "initial": {
+    "name": "Initial Round",
+    "description": "The initial round",
+    "startdate": "",
+    "enddate": "",
+    "locations": [
+      { "id": "initial_1", "coords": [], "hint": "A big charr statue" },
+      { "id": "initial_2", "coords": [], "hint": "The city built by Gwen" }
+    ]
+  },
+  "second": {
+    "name": "Second Round",
+    "description": "The initial round",
+    "startdate": "",
+    "enddate": "",
+    "locations": [
+      { "id": "initial_1", "coords": [], "hint": "A big charr statue" },
+      { "id": "initial_2", "coords": [], "hint": "The city built by Gwen" }
+    ]
+  }
+}

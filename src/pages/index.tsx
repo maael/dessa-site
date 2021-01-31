@@ -1,60 +1,17 @@
 import Image from 'next/image'
-import { ReadyState } from 'react-use-websocket'
-import classnames from 'classnames'
 import { HiArrowCircleRight, HiEye, HiCog, HiUserGroup } from 'react-icons/hi'
-import ConnectionStatus from '../components/primitives/ConnectionStatus'
+import ConnectionWelcome from '../components/primitives/ConnectionWelcome'
 import Spinner from '../components/primitives/Spinner'
-import useLink from '../components/hooks/useLink'
 
 export default function Index() {
-  const { link, mapData, specData, continentData, readyState } = useLink()
-
-  const identity = link?.identity
-  const context = link?.context
-
   return (
     <div className="h-full flex flex-col">
-      {readyState !== ReadyState.OPEN ? (
-        <div className="w-full bg-green-200 sm:pr-2 p-2 pr-16 text-center">
-          Download{' '}
-          <a className="font-bold hover:underline text-green-800" href="https://www.deltaconnected.com/arcdps/x64/">
-            d3d9.dll
-          </a>{' '}
-          and{' '}
-          <a className="font-bold hover:underline text-green-800" href="http://github.com/maael/dessa/releases/latest">
-            dessa.dll
-          </a>{' '}
-          and put them in your GW2 bin64 folder
-        </div>
-      ) : null}
-      <ConnectionStatus title={JSON.stringify(link)} state={readyState} />
       <div className="bg-gray-800 flex-1 flex flex-col items-center pb-10">
         <div className="mt-2 relative z-10">
           <div className="mt-16">
             <div className="title text-6xl text-center">Dessa</div>
             <div className="flex flex-col p-5 items-center text-center">
-              <div
-                className={classnames('shadow-lg rounded-md bg-blue-900 text-white pr-5 pl-5 pt-2 pb-2 mb-4', {
-                  'animate-pulse': readyState !== ReadyState.OPEN,
-                })}
-              >
-                {readyState !== ReadyState.OPEN ? (
-                  'Waiting for connection'
-                ) : (
-                  <>
-                    Hey {identity?.name}, a {identity?.raceName || ''} {specData && specData.elite ? specData.name : ''}{' '}
-                    {identity?.professionName || ''}
-                    {context?.mountName ? ` on a ${context.mountName}` : ''}
-                    {mapData
-                      ? ` in ${
-                          mapData.name === 'Fractals of the Mists'
-                            ? Object.values(continentData?.sectors || {})[0]?.name || mapData.name
-                            : mapData.name
-                        }`
-                      : ''}
-                  </>
-                )}
-              </div>
+              <ConnectionWelcome />
             </div>
             <div className="absolute top-0" style={{ zIndex: -1, left: 'calc(50%)', transform: 'translateX(-50%)' }}>
               <Spinner />
@@ -81,7 +38,7 @@ export default function Index() {
         <div className="flex flex-col justify-center items-center">
           <div className="title text-4xl">Tools</div>
           <div className="grid gap-5 md:gap-10 grid-cols-1 lg:grid-cols-3 xl:grid-cols-5 mt-1 place-content-center mr-2 ml-2 md:mr-10 md:ml-10">
-            <a href="/map" className="xl:col-start-2 card">
+            <a href="/sightseeing" className="xl:col-start-2 card">
               <div className="card-icon-area">
                 <HiEye />
               </div>

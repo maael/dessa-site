@@ -1,5 +1,6 @@
 import { ReadyState } from 'react-use-websocket'
 import { HiCheckCircle, HiCloudUpload, HiExclamation, HiLogout, HiXCircle } from 'react-icons/hi'
+import useLink from '../hooks/useLink'
 
 const connectionIconMap = {
   [ReadyState.CONNECTING]: <HiCloudUpload className="text-yellow-500" />,
@@ -17,14 +18,15 @@ const connectionTitleMap = {
   [ReadyState.UNINSTANTIATED]: 'Uninstantiated',
 }
 
-export default function ConnectionStatus({ state, title }: { state: ReadyState; title?: string }) {
+export default function ConnectionStatus({ title }: { title?: string }) {
+  const { link, readyState } = useLink()
   return (
     <div
       className="text-4xl fixed top-5 right-5"
       style={{ cursor: 'help', zIndex: 999 }}
-      title={`${connectionTitleMap[state]}${title ? ` - ${title}` : ''}`}
+      title={`${connectionTitleMap[readyState]}${title || link ? ` - ${JSON.stringify(title || link)}` : ''}`}
     >
-      {connectionIconMap[state]}
+      {connectionIconMap[readyState]}
     </div>
   )
 }

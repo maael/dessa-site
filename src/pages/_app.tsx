@@ -4,6 +4,8 @@ import { DefaultSeo } from 'next-seo'
 import useFathom from '../components/hooks/useFathom'
 import SEO from '../../next-seo.config'
 import EmojiFavicon from '../components/primitives/EmojiFavicon'
+import DownloadBanner from '../components/primitives/DownloadBanner'
+import ConnectionStatus from '../components/primitives/ConnectionStatus'
 
 function App({ Component, pageProps }) {
   useFathom()
@@ -14,8 +16,12 @@ function App({ Component, pageProps }) {
         <meta name="theme-color" content="#93C5FD" />
       </Head>
       <DefaultSeo {...SEO} />
-      <Component {...pageProps} />
       <EmojiFavicon emoji="🔌" />
+      <div className="h-full flex flex-col bg-gray-800 text-white">
+        <DownloadBanner />
+        <ConnectionStatus />
+        <Component {...pageProps} />
+      </div>
     </>
   )
 }
