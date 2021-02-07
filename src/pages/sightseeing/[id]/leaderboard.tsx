@@ -14,7 +14,7 @@ export default function Sightseeing() {
   return (
     <div>
       <HeaderNav />
-      <div className="title text-6xl text-center">{chapter[0]?.name}</div>
+      <div className="title text-4xl md:text-6xl text-center">{chapter[0]?.name}</div>
       <div className="title text-2xl text-center">{chapter[0]?.description}</div>
       <div className="flex flex-col justify-center items-center mt-5 w-full pr-2 pl-2">
         <div className="title text-4xl">Leaderboard</div>

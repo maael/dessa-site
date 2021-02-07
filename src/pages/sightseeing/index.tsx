@@ -7,7 +7,7 @@ export default function Sightseeing() {
   return (
     <div>
       <HeaderNav />
-      <div className="title text-6xl text-center">Sightseeing Sessions</div>
+      <div className="title text-4xl md:text-6xl text-center">Sightseeing Session</div>
       <div className="title text-2xl text-center">
         <Link href="/map">
           <a>Live map →</a>
