@@ -1,10 +1,14 @@
+import { useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
+import classnames from 'classnames'
 import { HiArrowCircleRight, HiEye, HiCog, HiUserGroup } from 'react-icons/hi'
+import { FaDiscord, FaMapMarkedAlt, FaSpinner } from 'react-icons/fa'
 import ConnectionWelcome from '../components/primitives/ConnectionWelcome'
 import Spinner from '../components/primitives/Spinner'
 
 export default function Index() {
+  const [highlightInstall, setHighlightInstall] = useState(false)
   return (
     <div className="h-full flex flex-col">
       <div className="bg-gray-800 flex-1 flex flex-col items-center pb-10">
@@ -19,9 +23,9 @@ export default function Index() {
             </div>
           </div>
         </div>
-        <div className="button">
+        <a className="button" href="#installation" onClick={() => setHighlightInstall(true)}>
           Get started <HiArrowCircleRight className="ml-2 text-xl" />
-        </div>
+        </a>
         <div className="flex flex-col justify-center items-center">
           <div className="title text-4xl">What is it?</div>
         </div>
@@ -39,8 +43,20 @@ export default function Index() {
         <div className="flex flex-col justify-center items-center">
           <div className="title text-4xl">Tools</div>
           <div className="grid gap-5 md:gap-10 grid-cols-1 lg:grid-cols-3 xl:grid-cols-5 mt-1 place-content-center mr-2 ml-2 md:mr-10 md:ml-10">
-            <Link href="/sightseeing">
+            <Link href="/discord">
               <a className="xl:col-start-2 card">
+                <div className="card-icon-area">
+                  <FaDiscord />
+                </div>
+                <div className="flex-1">
+                  Show your activity live in Discord with expanded Rich Presence - showing off the name of the character
+                  you're playing, their class, and what map you're in.
+                </div>
+                <HiArrowCircleRight className="mt-4 text-4xl" />
+              </a>
+            </Link>
+            <Link href="/sightseeing">
+              <a className="card">
                 <div className="card-icon-area">
                   <HiEye />
                 </div>
@@ -48,6 +64,7 @@ export default function Index() {
                   Sightseeing logs, find points in the world from pictures and text clues. New ones released each week,
                   race to find them first with live leaderboards.
                 </div>
+                <HiArrowCircleRight className="mt-4 text-4xl" />
               </a>
             </Link>
             <Link href="/map">
@@ -59,6 +76,31 @@ export default function Index() {
                   Fractal speed clears, track different group compositions and fight against each other on the
                   leaderboards, including number of times your team goes downstate.
                 </div>
+                <HiArrowCircleRight className="mt-4 text-4xl" />
+              </a>
+            </Link>
+            <Link href="/map">
+              <a className="xl:col-start-2 card">
+                <div className="card-icon-area">
+                  <FaMapMarkedAlt />
+                </div>
+                <div className="flex-1">
+                  A live map showing everyone with Dessa installed and online, letting you see where your friends are
+                  without having to ask.
+                </div>
+                <HiArrowCircleRight className="mt-4 text-4xl" />
+              </a>
+            </Link>
+            <Link href="/rotation">
+              <a className="card">
+                <div className="card-icon-area">
+                  <FaSpinner />
+                </div>
+                <div className="flex-1">
+                  A rotation tester, to let you practice and learn your skill ordering against a defined list of skills
+                  for openers, for those huge numbers.
+                </div>
+                <HiArrowCircleRight className="mt-4 text-4xl" />
               </a>
             </Link>
             <Link href="/debug/raw">
@@ -67,20 +109,28 @@ export default function Index() {
                   <HiCog />
                 </div>
                 <div className="flex-1">
-                  Debug tools to help test that Dessa is setup correctly, showing you everything that gets collected.
-                  Can be helpful if you want to write a tool using dessa too.
+                  Debug tools to help test that Dessa is setup correctly, or to write tools using the data, showing you
+                  everything that gets collected.
                 </div>
+                <HiArrowCircleRight className="mt-4 text-4xl" />
               </a>
             </Link>
           </div>
-          <div className="button mt-4">
+          <div className="button mt-8">
             More tools <HiArrowCircleRight className="ml-2 text-xl" />
           </div>
         </div>
         <div className="flex flex-col justify-center items-center mt-5 w-full pr-2 pl-2">
-          <div className="title text-4xl">Installation</div>
+          <div className="title text-4xl" id="installation">
+            Installation
+          </div>
           <div className="w-full grid gap-10 md:gap-20 grid-cols-1 md:grid-cols-5 xl:grid-cols-7 place-content-center mr-2 ml-2">
-            <div className="md:col-start-2 xl:col-start-3 col-span-3 flex flex-col shadow-lg rounded-md bg-blue-900 text-white pr-4 pl-4 pt-6 pb-6">
+            <div
+              className={classnames(
+                'md:col-start-2 xl:col-start-3 col-span-3 flex flex-col shadow-lg rounded-md bg-blue-900 text-white pr-4 pl-4 pt-6 pb-6',
+                { 'ring-2 ring-blue-400 ring-offset-4 ring-offset-gray-800': highlightInstall }
+              )}
+            >
               <ol className="list-decimal pl-8 pr-6">
                 <li>
                   Download{' '}
@@ -90,7 +140,6 @@ export default function Index() {
                   >
                     ArcDps (d3d9.dll) →
                   </a>
-                  .
                 </li>
                 <li>
                   Download{' '}
@@ -100,7 +149,6 @@ export default function Index() {
                   >
                     Dessa (dessa.dll) →
                   </a>
-                  .
                 </li>
                 <li>
                   Right click on d3d9.dll and dessa.dll and view properties, and click on {'"'}Unblock{'"'} for each,
@@ -117,8 +165,15 @@ export default function Index() {
           <div className="title text-4xl">FAQs</div>
           <div className="w-full grid gap-10 md:gap-20 grid-cols-1 md:grid-cols-5 xl:grid-cols-7 place-content-center mr-2 ml-2">
             <div className="md:col-start-2 xl:col-start-3 col-span-3 flex flex-col justify-center shadow-lg rounded-md bg-blue-900 text-white pr-4 pl-4 pt-6 pb-6">
-              <div>
+              <div className="mb-6">
                 <div className="title" style={{ marginTop: 0 }}>
+                  My game info isn't showing in Discord, what gives?
+                </div>
+                This is a bug I'm trying to fix at the moment, but you can fix it by making sure Discord is opening and
+                running <i>before</i> you start the game.
+              </div>
+              <div className="mb-6">
+                <div className="title" style={{ marginTop: 0, marginBottom: 2 }}>
                   This seems pretty cool, I'd like to make something with the data!
                 </div>
                 Sounds great! Check out the docs{' '}
@@ -126,6 +181,26 @@ export default function Index() {
                   <a className="font-bold hover:underline text-blue-400">here →</a>
                 </Link>
                 .
+              </div>
+              <div className="mb-6">
+                <div className="title" style={{ marginTop: 0 }}>
+                  Something isn't working? Fix it!
+                </div>
+                Let me know what the issue is by{' '}
+                <a className="font-bold hover:underline text-blue-400" href="mailto:matt.a.elphy+dessa@gmail.com">
+                  emailing me
+                </a>
+                , and I'll get right on it.
+              </div>
+              <div>
+                <div className="title" style={{ marginTop: 0 }}>
+                  I have an idea for something to add!
+                </div>
+                Let me know by{' '}
+                <a className="font-bold hover:underline text-blue-400" href="mailto:matt.a.elphy+dessa@gmail.com">
+                  emailing me
+                </a>
+                , and I'll get right on it.
               </div>
             </div>
           </div>
