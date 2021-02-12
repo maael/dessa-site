@@ -131,8 +131,8 @@ export default function Index() {
                 { 'ring-2 ring-blue-400 ring-offset-4 ring-offset-gray-800': highlightInstall }
               )}
             >
-              <ol className="list-decimal pl-8 pr-6">
-                <li>
+              <ol className="list-decimal pl-8 pr-6 spacing">
+                <li className="pb-2 pt-2">
                   Download{' '}
                   <a
                     className="font-bold hover:underline text-blue-400"
@@ -141,7 +141,7 @@ export default function Index() {
                     ArcDps (d3d9.dll) →
                   </a>
                 </li>
-                <li>
+                <li className="pb-2 pt-2">
                   Download{' '}
                   <a
                     className="font-bold hover:underline text-blue-400"
@@ -150,13 +150,13 @@ export default function Index() {
                     Dessa (dessa.dll) →
                   </a>
                 </li>
-                <li>
+                <li className="pb-2 pt-2">
                   Right click on d3d9.dll and dessa.dll and view properties, and click on {'"'}Unblock{'"'} for each,
                   and click apply.
                 </li>
-                <li>Move to your Guild Wars 2 bin64 folder.</li>
-                <li>Start up the game and the message at the top of this page should change.</li>
-                <li>You're good to go, that's it!</li>
+                <li className="pb-2 pt-2">Move to your Guild Wars 2 bin64 folder.</li>
+                <li className="pb-2 pt-2">Start up the game and the message at the top of this page should change.</li>
+                <li className="pb-2 pt-2">You're good to go, that's it!</li>
               </ol>
             </div>
           </div>
