@@ -3,7 +3,7 @@ import Spinner from './Spinner'
 
 export default function HeaderNav() {
   return (
-    <div className="pl-20 pr-20 md:-mb-10 flex items-center justify-center">
+    <div className="pl-5 pr-5 md:pl-20 md:pr-20 md:-mb-10 flex items-center justify-center">
       <div className="w-20 -ml-20 hidden md:block">
         <Spinner />
       </div>
@@ -13,20 +13,22 @@ export default function HeaderNav() {
             <a>Dessa</a>
           </Link>
         </div>
-        <div className="title text-1xl pr-4">
-          <Link href="/sightseeing">
-            <a>Sightseeing</a>
-          </Link>
-        </div>
-        <div className="title text-1xl pr-4">
-          <Link href="/map">
-            <a>Fractals</a>
-          </Link>
-        </div>
-        <div className="title text-1xl pr-4">
-          <Link href="/debug/raw">
-            <a>Debug</a>
-          </Link>
+        <div className="gap-4 flex flex-row justify-center items-center">
+          <div className="title text-sm">
+            <Link href="/sightseeing">
+              <a>Sightseeing</a>
+            </Link>
+          </div>
+          <div className="title text-sm">
+            <Link href="/map">
+              <a>Fractals</a>
+            </Link>
+          </div>
+          <div className="title text-sm">
+            <Link href="/debug/raw">
+              <a>Debug</a>
+            </Link>
+          </div>
         </div>
       </div>
     </div>

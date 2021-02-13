@@ -27,7 +27,7 @@ export default function Rotation() {
   return (
     <div className="flex flex-1 items-center flex-col pb-10">
       <HeaderNav />
-      <div className="title text-3xl xl:text-6xl mt-5 text-center">Rotation Practicer</div>
+      <div className="title text-4xl sm:text-5xl mt-5 text-center">Rotation Practicer</div>
       <div className="flex items-center justify-center gap-3 flex-wrap mt-5">
         {Object.values(professionMap).map((p) => (
           <div
@@ -56,7 +56,7 @@ export default function Rotation() {
       </div>
       <div className="flex flex-col md:flex-row w-full">
         <div className="flex-1">
-          <div className="title text-4xl mt-5 text-center">Actual</div>
+          <div className="title text-3xl mt-5 text-center">Actual</div>
           <div className="flex flex-col gap-2">
             {activedSkills.map((r, i) => (
               <div key={i} className="flex-1 flex justify-center items-center space-x-2">
@@ -74,7 +74,7 @@ export default function Rotation() {
           </div>
         </div>
         <div className="flex-1">
-          <div className="title text-4xl mt-5 text-center">Rotation</div>
+          <div className="title text-3xl mt-5 text-center">Rotation</div>
           <div className="flex flex-col gap-2">
             {rotation.map((r) => (
               <div key={r.id} className="flex-1 flex justify-center items-center space-x-2">
