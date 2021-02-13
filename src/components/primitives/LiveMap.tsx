@@ -1,5 +1,5 @@
 import { useCallback, useEffect } from 'react'
-import { MapContainer, TileLayer, useMap, Circle } from 'react-leaflet'
+import { MapContainer, TileLayer, useMap, Circle, Tooltip, Popup } from 'react-leaflet'
 import L from 'leaflet'
 import 'leaflet/dist/leaflet.css'
 import { ObservatoryCharacterData } from '../../types/observatory'
@@ -29,7 +29,7 @@ export default function Map({ players, selected }: { players: ObservatoryCharact
       />
       <Setup />
       {players.map((p) => (
-        <Player key={p.charName} x={p.player.x} y={p.player.y} isSelected={selected === p.charName} />
+        <Player key={p.charName} player={p} x={p.player.x} y={p.player.y} isSelected={selected === p.charName} />
       ))}
     </MapContainer>
   )
@@ -49,20 +49,46 @@ function Setup() {
   return null
 }
 
-function Player({ x = 0, y = 0, isSelected }: { x?: number; y?: number; isSelected: boolean }) {
+function Player({
+  x = 0,
+  y = 0,
+  isSelected,
+  player,
+}: {
+  x?: number
+  y?: number
+  isSelected: boolean
+  player: ObservatoryCharacterData
+}) {
   const map = useMap()
   const unproject = useCallback((coord: [number, number]) => map.unproject(coord, map.getMaxZoom()), [map])
   useEffect(() => {
     map.setView(unproject([x, y]), map.getZoom())
   }, [map, x, y, unproject])
+  useEffect(() => {
+    if (isSelected) {
+      map.setView(unproject([x, y]))
+    }
+  }, [isSelected, map, unproject, x, y])
   return x === 0 && y === 0 ? null : (
     <Circle
       center={unproject([x, y])}
       radius={markerZoomLevelSize[map.getZoom()]}
       //This doesn't work
-      fillColor={isSelected ? '#00FFFF' : '#00FF00'}
+      fillColor="#00FF00"
       fill
       fillOpacity={0}
-    />
+    >
+      {isSelected ? (
+        <Tooltip permanent opacity={1} direction="top">
+          <div className="text-xl">{player.charName}</div>
+        </Tooltip>
+      ) : null}
+      {isSelected ? null : (
+        <Popup>
+          <div className="text-xl">{player.charName}</div>
+        </Popup>
+      )}
+    </Circle>
   )
 }
