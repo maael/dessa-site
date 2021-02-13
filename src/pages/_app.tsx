@@ -17,7 +17,7 @@ function App({ Component, pageProps }) {
       </Head>
       <DefaultSeo {...SEO} />
       <EmojiFavicon emoji="🔌" />
-      <div className="min-h-full flex flex-col bg-gray-800 text-white pb-10">
+      <div className="min-h-full flex flex-col bg-gray-800 text-white">
         <DownloadBanner />
         <ConnectionStatus />
         <Component {...pageProps} />

@@ -79,7 +79,7 @@ export default function Index() {
                 <HiArrowCircleRight className="mt-4 text-4xl" />
               </a>
             </Link>
-            <Link href="/map">
+            <Link href="/live-map">
               <a className="xl:col-start-2 card">
                 <div className="card-icon-area">
                   <FaMapMarkedAlt />
