@@ -4,9 +4,12 @@ import classnames from 'classnames'
 import useSWR from 'swr'
 import HeaderNav from '../components/primitives/HeaderNav'
 import { professionMap } from '../../data/link'
+import useArc from '../components/hooks/useArc'
 
 export default function Rotation() {
   const [profession, setProfession] = useState<string>()
+  const combatLog = useArc()
+  const activedSkills = combatLog.filter((l) => l.is_activation === 1)
   const { data: profData } = useSWR(profession ? `https://api.guildwars2.com/v2/professions/${profession}` : null)
   const skillsList = (profData && profData.skills ? profData.skills : [])
     .map(({ id }) => id)
@@ -54,6 +57,21 @@ export default function Rotation() {
       <div className="flex flex-col md:flex-row w-full">
         <div className="flex-1">
           <div className="title text-4xl mt-5 text-center">Actual</div>
+          <div className="flex flex-col gap-2">
+            {activedSkills.map((r, i) => (
+              <div key={i} className="flex-1 flex justify-center items-center space-x-2">
+                {(skillsData || []).find(({ id }) => id === r.skillid) ? (
+                  <Image
+                    title={r.skillname}
+                    src={(skillsData || []).find(({ id }) => id === r.skillid).icon}
+                    height={30}
+                    width={30}
+                  />
+                ) : null}
+                <div>{r.skillname}</div>
+              </div>
+            ))}
+          </div>
         </div>
         <div className="flex-1">
           <div className="title text-4xl mt-5 text-center">Rotation</div>

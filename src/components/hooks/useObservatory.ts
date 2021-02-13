@@ -7,6 +7,7 @@ export default function useObservatory() {
     reconnectInterval: 5000,
     reconnectAttempts: Infinity,
     shouldReconnect: () => true,
+    share: true,
   })
   const lastLinkMessage = useRef<ObservatoryCharacterData[]>([])
   lastLinkMessage.current = useMemo(
