@@ -25,9 +25,9 @@ export default function Rotation() {
     setRotation([])
   }, [profession])
   return (
-    <div className="flex flex-1 items-center flex-col">
+    <div className="flex flex-1 items-center flex-col pb-10">
       <HeaderNav />
-      <div className="title text-6xl mt-5">Rotation Practicer</div>
+      <div className="title text-3xl xl:text-6xl mt-5 text-center">Rotation Practicer</div>
       <div className="flex items-center justify-center gap-3 flex-wrap mt-5">
         {Object.values(professionMap).map((p) => (
           <div

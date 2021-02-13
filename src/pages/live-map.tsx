@@ -18,7 +18,7 @@ export default function Index() {
   const link = useLink()
 
   return process.browser && typeof window !== 'undefined' ? (
-    <div className="flex-1 flex flex-row">
+    <div className="flex-1 flex flex-col-reverse md:flex-row">
       <div className="w-60">
         {observatoryMessage.map((l) => (
           <div
