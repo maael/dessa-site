@@ -20,8 +20,8 @@ export default function HeaderNav() {
             </Link>
           </div>
           <div className="title text-sm">
-            <Link href="/map">
-              <a>Fractals</a>
+            <Link href="/live-map">
+              <a>Map</a>
             </Link>
           </div>
           <div className="title text-sm">

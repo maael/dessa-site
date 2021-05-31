@@ -2,8 +2,8 @@ import { useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import classnames from 'classnames'
-import { HiArrowCircleRight, HiEye, HiCog, HiUserGroup } from 'react-icons/hi'
-import { FaDiscord, FaMapMarkedAlt, FaSpinner } from 'react-icons/fa'
+import { HiArrowCircleRight, HiEye, HiCog } from 'react-icons/hi'
+import { FaDiscord, FaMapMarkedAlt, FaSpinner, FaGithub } from 'react-icons/fa'
 import ConnectionWelcome from '../components/primitives/ConnectionWelcome'
 import Spinner from '../components/primitives/Spinner'
 
@@ -30,8 +30,8 @@ export default function Index() {
           <div className="title text-4xl">What is it?</div>
         </div>
         <div className="flex justify-center items-center mt-2 w-full">
-          <div className="w-full grid gap-10 md:gap-20 grid-cols-1 md:grid-cols-5 xl:grid-cols-7 place-content-center mr-2 ml-2">
-            <div className="md:col-start-2 xl:col-start-3 col-span-3 flex flex-col justify-center items-center text-center shadow-lg rounded-md bg-blue-900 text-white pr-4 pl-4 pt-6 pb-6">
+          <div className="w-full grid gap-10 md:gap-20 grid-cols-1 md:grid-cols-5 xl:grid-cols-6 place-content-center mr-2 ml-2">
+            <div className="md:col-start-2 xl:col-start-3 col-span-3 xl:col-span-2 flex flex-col justify-center items-center text-center shadow-lg rounded-md bg-blue-900 text-white pr-4 pl-4 pt-6 pb-6">
               <div className="mb-2">
                 <Image src="/images/gw2.png" width={200} height={200} />
               </div>
@@ -67,7 +67,7 @@ export default function Index() {
                 <HiArrowCircleRight className="mt-4 text-4xl" />
               </a>
             </Link>
-            <Link href="/map">
+            {/* <Link href="/map">
               <a className="card">
                 <div className="card-icon-area">
                   <HiUserGroup />
@@ -78,21 +78,20 @@ export default function Index() {
                 </div>
                 <HiArrowCircleRight className="mt-4 text-4xl" />
               </a>
-            </Link>
+            </Link> */}
             <Link href="/live-map">
-              <a className="xl:col-start-2 card">
+              <a className="card">
                 <div className="card-icon-area">
                   <FaMapMarkedAlt />
                 </div>
                 <div className="flex-1">
-                  A live map showing everyone with Dessa installed and online, letting you see where your friends are
-                  without having to ask.
+                  A live map showing everyone with Dessa installed and online, who wants to be seen.
                 </div>
                 <HiArrowCircleRight className="mt-4 text-4xl" />
               </a>
             </Link>
             <Link href="/rotation">
-              <a className="card">
+              <a className="xl:col-start-2 card">
                 <div className="card-icon-area">
                   <FaSpinner />
                 </div>
@@ -115,10 +114,19 @@ export default function Index() {
                 <HiArrowCircleRight className="mt-4 text-4xl" />
               </a>
             </Link>
+            <Link href="https://github.com/maael/dessa-site/issues/new">
+              <a className="card">
+                <div className="card-icon-area">
+                  <FaGithub />
+                </div>
+                <div className="flex-1">Got ideas? Let me know what you think would be good to add!</div>
+                <HiArrowCircleRight className="mt-4 text-4xl" />
+              </a>
+            </Link>
           </div>
-          <div className="button mt-8">
+          {/* <div className="button mt-8">
             More tools <HiArrowCircleRight className="ml-2 text-xl" />
-          </div>
+          </div> */}
         </div>
         <div className="flex flex-col justify-center items-center mt-5 w-full pr-2 pl-2">
           <div className="title text-4xl" id="installation">
@@ -148,16 +156,34 @@ export default function Index() {
                     href="http://github.com/maael/dessa/releases/latest"
                   >
                     Dessa (dessa.dll) →
-                  </a>
+                  </a>{' '}
+                  - just the top one under assets.
                 </li>
                 <li className="pb-2 pt-2">
                   Right click on d3d9.dll and dessa.dll and view properties, and click on {'"'}Unblock{'"'} for each,
                   and click apply.
                 </li>
-                <li className="pb-2 pt-2">Move to your Guild Wars 2 bin64 folder.</li>
+                <li className="pb-2 pt-2">
+                  Move to your Guild Wars 2 bin64 folder, depending on where you installed the game this will be
+                  something like{' '}
+                  <code className="bg-blue-500 px-1 rounded-sm text-sm whitespace-nowrap">
+                    C:\Program Files\Guild Wars 2\bin64
+                  </code>
+                  .
+                </li>
                 <li className="pb-2 pt-2">Start up the game and the message at the top of this page should change.</li>
                 <li className="pb-2 pt-2">You're good to go, that's it!</li>
               </ol>
+              <p className="text-center mt-2">
+                Any issues setting this up? Feel free to reach out{' '}
+                <a
+                  className="font-bold hover:underline text-blue-400"
+                  href="https://github.com/maael/dessa-site/issues/new"
+                >
+                  here
+                </a>{' '}
+                so we can fix it.
+              </p>
             </div>
           </div>
         </div>
@@ -186,19 +212,25 @@ export default function Index() {
                 <div className="title" style={{ marginTop: 0 }}>
                   Something isn't working? Fix it!
                 </div>
-                Let me know what the issue is by{' '}
-                <a className="font-bold hover:underline text-blue-400" href="mailto:matt.a.elphy+dessa@gmail.com">
-                  emailing me
+                Let me know what the issue is{' '}
+                <a
+                  className="font-bold hover:underline text-blue-400"
+                  href="https://github.com/maael/dessa-site/issues/new"
+                >
+                  here
                 </a>
-                , and I'll get right on it.
+                , and we'll figure it out.
               </div>
               <div>
                 <div className="title" style={{ marginTop: 0 }}>
                   I have an idea for something to add!
                 </div>
-                Let me know by{' '}
-                <a className="font-bold hover:underline text-blue-400" href="mailto:matt.a.elphy+dessa@gmail.com">
-                  emailing me
+                Let me know{' '}
+                <a
+                  className="font-bold hover:underline text-blue-400"
+                  href="https://github.com/maael/dessa-site/issues/new"
+                >
+                  here
                 </a>
                 , and I'll get right on it.
               </div>
@@ -209,7 +241,7 @@ export default function Index() {
       <div className="p-1 bg-gray-700 text-white text-center flex justify-center items-center">
         Made by
         <a className="font-bold ml-1 text-blue-400 hover:text-blue-500" href="https://githib.com/maael">
-          Matt Elphick
+          Maael
         </a>
       </div>
     </div>

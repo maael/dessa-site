@@ -1,5 +1,6 @@
 module.exports = {
-  purge: ['./src/**/*.tsx'],
+  mode: 'jit',
+  purge: ['./src/**/*.{tsx,ts}'],
   darkMode: false, // or 'media' or 'class'
   theme: {
     extend: {},
@@ -7,5 +8,5 @@ module.exports = {
   variants: {
     extend: {},
   },
-  plugins: [],
+  plugins: [require('@tailwindcss/aspect-ratio')],
 }
