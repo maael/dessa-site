@@ -1,15 +1,15 @@
-import { useMemo, useRef, useState } from 'react'
+import { useState } from 'react'
 import dynamic from 'next/dynamic'
 import classnames from 'classnames'
-import useWebSocket from 'react-use-websocket'
 import ConnectionStatus from '../components/primitives/ConnectionStatus'
-import { ObservatoryCharacterData } from '../types/observatory'
 import useObservatory from '../components/hooks/useObservatory'
 import useLink from '../components/hooks/useLink'
 
 const Map = dynamic(async () => import('../components/primitives/LiveMap'), {
   ssr: false,
-  loading: () => <p className="h-full w-full flex justify-center items-center text-center">Loading map</p>,
+  loading: function Loading() {
+    return <p className="h-full w-full flex justify-center items-center text-center">Loading map</p>
+  },
 })
 
 export default function Index() {

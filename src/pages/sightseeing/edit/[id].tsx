@@ -2,40 +2,27 @@ import { createRef, useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 import HeaderNav from '../../../components/primitives/HeaderNav'
 import useLink from '../../../components/hooks/useLink'
+import { useSightseeingChallenge, useSightseeingChallengeCreateOrUpdate } from '../../../util/api'
 import { LinkData } from '../../../types/dessa'
-import useSupa from '../../../components/hooks/useSupa'
-import supabase from '../../../utils/supa'
 
 export default function SightseeingCapture() {
-  const { query } = useRouter()
+  const { query, push } = useRouter()
   const { id: qId } = query
-  const numericId = qId === 'new' ? null : Number(qId)
-  const { data: chapter, refetch } = useSupa<{ name: string; description: string }>(
-    'sightseeing_chapters',
-    'name, description',
-    `id eq ${numericId}`
-  )
-  const { data: chapterEntries } = useSupa<{
-    chapter_id: number
-    id: number
-    hint_text: string
-    avatar: [number, number, number]
-    player_x: number
-    player_y: number
-  }>('sightseeing_entries', 'chapter_id, id, hint_text, avatar, player_x, player_y', `chapter_id eq ${query.id}`)
+  const safeId = qId === 'new' ? null : (qId as string)
+  const { data } = useSightseeingChallenge(safeId)
+  const { mutate } = useSightseeingChallengeCreateOrUpdate()
 
-  const queriedChapter = chapter[0]
   const [capturedLinks, setCapturedLinks] = useState<LinkData[]>([])
   useEffect(() => {
-    if (chapterEntries.length && !capturedLinks.length) {
+    if (data?.items.length && !capturedLinks.length) {
       setCapturedLinks(
-        chapterEntries.map(
-          ({ id, avatar, hint_text, player_x, player_y }, i) =>
+        data.items.map(
+          ({ _id, avatar, hint, player }, i) =>
             (({
               ui_tick: i,
               context: {
-                player_x,
-                player_y,
+                player_x: player.x,
+                player_y: player.y,
               },
               avatar: {
                 position: avatar,
@@ -43,23 +30,20 @@ export default function SightseeingCapture() {
               identity: {
                 name: 'Unknown',
               },
-              id,
-              hint: hint_text,
+              _id,
+              hint: hint.text,
             } as unknown) as LinkData)
         )
       )
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [chapterEntries.length, capturedLinks])
+  }, [data?.items.length, capturedLinks])
   const { link } = useLink()
   const formRef = createRef<HTMLFormElement>()
   return (
     <div>
       <HeaderNav />
       <div className="title text-4xl md:text-6xl text-center">Sightseeing Capture</div>
-      <div className="title text-2xl text-center">
-        <a href="/map">Live map →</a>
-      </div>
       <form
         ref={formRef}
         onSubmit={async (e) => {
@@ -78,60 +62,26 @@ export default function SightseeingCapture() {
             }
             return acc
           }, [])
-          const isNewChapter = !(queriedChapter as typeof chapter[0] | undefined)
-          const hasChangedChapter = !!(
-            (queriedChapter as typeof chapter[0] | undefined) &&
-            (queriedChapter.name !== name || queriedChapter.description !== description)
-          )
-          console.info('Has changed chapter', isNewChapter, hasChangedChapter)
-          console.info('Sending', { name, description, cleanEntries })
-          if (isNewChapter) {
-            const result = await supabase
-              .from('sightseeing_chapters')
-              .insert({ name, description }, { returning: 'representation' })
-            console.info('New chapter', (result.data || [])[0])
-          } else if (hasChangedChapter) {
-            const result = await supabase.from('sightseeing_chapters').update({ name, description }).eq('id', numericId)
-            console.info('Updated chapter', result, numericId)
-          } else {
-            console.info('Skipping chapter update')
+
+          const items = cleanEntries.map(({ hint, x, y, avatar }) => ({
+            hint: { text: hint },
+            player: { x, y },
+            avatar: JSON.parse(avatar),
+          }))
+
+          const challenge = {
+            _id: safeId,
+            name,
+            description,
+            difficulty: 5,
+            items,
           }
-          const submittedEntryIds = new Set(cleanEntries.map((i) => Number(i.id)).filter(Boolean))
-          const newEntries = cleanEntries.filter((i) => !i.id)
-          const deletedEntries = chapterEntries
-            .filter(({ id }) => !submittedEntryIds.has(id))
-            .map(({ id }) => id)
-            .concat(cleanEntries.filter(({ id, hint }) => id && !hint).map(({ id }) => id))
-          const updatedEntries = chapterEntries.filter(({ id }) => !deletedEntries.includes(id))
-          // TODO: Handle updates
-          console.info({
-            submittedEntryIds,
-            newEntries,
-            updatedEntries,
-            deletedEntries,
-            mapped: newEntries.map(({ hint, x, y, avatar }) => ({
-              chapter_id: numericId,
-              hint_text: hint,
-              player_x: x,
-              player_y: y,
-              avatar: JSON.parse(avatar),
-            })),
+
+          await mutate(challenge, {
+            onSuccess: async (result) => {
+              push(`/sightseeing/${result._id}`)
+            },
           })
-          const [newResult, deletedResult] = await Promise.all([
-            supabase.from('sightseeing_entries').insert(
-              newEntries.map(({ hint, x, y, avatar }) => ({
-                chapter_id: numericId,
-                hint_text: hint,
-                player_x: x,
-                player_y: y,
-                avatar: JSON.parse(avatar),
-              }))
-            ),
-            supabase.from('sightseeing_entries').delete().in('id', deletedEntries),
-          ])
-          console.info('saved', newResult, deletedResult)
-          // TODO: Handle refetch properly
-          await refetch().catch((err) => console.error(err))
         }}
       >
         <div className="mt-10 flex justify-center items-center">
@@ -146,7 +96,7 @@ export default function SightseeingCapture() {
               <input
                 required
                 name="name"
-                defaultValue={(queriedChapter as typeof chapter[0] | undefined) && queriedChapter.name}
+                defaultValue={(data as typeof data | undefined) && data?.name}
                 placeholder="Title..."
                 className="p-2 bg-blue-300 rounded-md flex-1 overflow-ellipsis placeholder-black text-black"
               />
@@ -155,7 +105,7 @@ export default function SightseeingCapture() {
               <p className="bg-blue-400 p-1 rounded-md w-24 text-center">Description</p>
               <input
                 name="description"
-                defaultValue={(queriedChapter as typeof chapter[0] | undefined) && queriedChapter.description}
+                defaultValue={(data as typeof data | undefined) && data?.description}
                 placeholder="Description..."
                 className="p-2 bg-blue-300 rounded-md flex-1 overflow-ellipsis placeholder-black text-black"
               />
@@ -187,14 +137,14 @@ export default function SightseeingCapture() {
               )
             }
           >
-            Capture
+            Capture New Entry
           </button>
           {capturedLinks.map((i, idx) => (
             <div
               key={i.ui_tick}
               className="w-full mb-5 grid gap-10 md:gap-20 grid-cols-1 md:grid-cols-5 xl:grid-cols-7 place-content-center mr-2 ml-2"
             >
-              <input type="hidden" name={`entries[${idx}][id]`} value={(i as any).id} />
+              <input type="hidden" name={`entries[${idx}][id]`} value={(i as any)._id} />
               <input type="hidden" name={`entries[${idx}][x]`} value={i.context.player_x.toFixed(2)} />
               <input type="hidden" name={`entries[${idx}][y]`} value={i.context.player_y.toFixed(2)} />
               <input type="hidden" name={`entries[${idx}][avatar]`} value={JSON.stringify(i.avatar.position)} />

@@ -9,7 +9,7 @@ export default function Index() {
     reconnectInterval: 5000,
     shouldReconnect: () => true,
   })
-  const messageHistory = useRef<{}[]>([])
+  const messageHistory = useRef<any[]>([])
   messageHistory.current = useMemo(
     () => (lastJsonMessage === null ? messageHistory.current : messageHistory.current.concat(lastJsonMessage)),
     [lastJsonMessage]

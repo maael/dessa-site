@@ -1,21 +1,16 @@
 import { useRouter } from 'next/router'
-import useSupa from '../../../components/hooks/useSupa'
 import HeaderNav from '../../../components/primitives/HeaderNav'
+import { useSightseeingChallenge } from '../../../util/api'
 
 export default function Sightseeing() {
   const { query } = useRouter()
-
-  const { data: chapter } = useSupa<{ name: string; description: string }>(
-    'sightseeing_chapters',
-    'name, description',
-    `id eq ${query.id}`
-  )
+  const { data } = useSightseeingChallenge(query.id as string)
 
   return (
     <div>
       <HeaderNav />
-      <div className="title text-4xl md:text-6xl text-center">{chapter[0]?.name}</div>
-      <div className="title text-2xl text-center">{chapter[0]?.description}</div>
+      <div className="title text-4xl md:text-6xl text-center">{data?.name}</div>
+      <div className="title text-2xl text-center">{data?.description}</div>
       <div className="flex flex-col justify-center items-center mt-5 w-full pr-2 pl-2">
         <div className="title text-4xl">Leaderboard</div>
         <div className="w-full grid gap-10 md:gap-20 grid-cols-1 md:grid-cols-5 xl:grid-cols-7 place-content-center mr-2 ml-2 mt-4">
