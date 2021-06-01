@@ -32,13 +32,24 @@ export function useSightseeingChallenge(id: string | null) {
 export async function createOrUpdateSightseeingChallenge(challenge: any) {
   const url = challenge._id ? `/api/sightseeing?id=${challenge._id}` : '/api/sightseeing'
   const method = challenge._id ? 'PATCH' : 'POST'
-  if (!challenge._id) delete challenge._id
+  const data = new FormData()
+  if (challenge._id) data.append('_id', challenge._id)
+  data.append('name', challenge.name)
+  data.append('description', challenge.description)
+  data.append('difficulty', '5')
+  data.append('media', challenge.media)
+  challenge.items.forEach((i, idx) => {
+    data.append(`items[${idx}][hint][text]`, i.hint.text)
+    data.append(`items[${idx}][hint][media]`, i.hint.media)
+    data.append(`items[${idx}][player][x]`, i.player.x)
+    data.append(`items[${idx}][player][y]`, i.player.y)
+    i.avatar.forEach((a, ajx) => {
+      data.append(`items[${idx}][avatar][${ajx}]`, a)
+    })
+  })
   const res = await fetch(url, {
     method,
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(challenge),
+    body: data,
   })
   if (!res.ok) throw new Error('Network response was not ok')
   return res.json()

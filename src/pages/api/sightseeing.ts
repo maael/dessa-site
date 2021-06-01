@@ -1,7 +1,9 @@
 import crypto from 'crypto'
 import { NextApiHandler } from 'next'
+import mongoose from 'mongoose'
 import SightseeingChallenge from '../../db/models/SightseeingChallenges'
 import { errorHandler } from '../../util/middleware'
+import { getFormData, attachFiles } from '../../util/form'
 
 const handler: NextApiHandler = async (req, res) => {
   const { id, action } = req.query
@@ -14,7 +16,10 @@ const handler: NextApiHandler = async (req, res) => {
       return res.json(challenge)
     }
   } else if (req.method === 'POST') {
-    const created = await SightseeingChallenge.create([req.body])
+    const id = new mongoose.Types.ObjectId().toString()
+    const { fields, files } = await getFormData(req, res, id)
+    const fieldsWithFiles = attachFiles(fields, files)
+    const created = await SightseeingChallenge.create([{ _id: id, ...fieldsWithFiles }])
     return res.json(created)
   } else if (req.method === 'PUT') {
     if (action === 'like') {
@@ -37,11 +42,19 @@ const handler: NextApiHandler = async (req, res) => {
     if (!id) {
       throw new Error('Missing ID')
     }
-    const challenge = await SightseeingChallenge.findByIdAndUpdate(id, req.body, { new: true })
+    const { fields, files } = await getFormData(req, res)
+    const fieldsWithFiles = attachFiles(fields, files)
+    const challenge = await SightseeingChallenge.findByIdAndUpdate(id, fieldsWithFiles, { new: true })
     return res.json(challenge)
   } else {
     res.status(501).json({ error: 'Not implemented' })
   }
+}
+
+export const config = {
+  api: {
+    bodyParser: false,
+  },
 }
 
 export default errorHandler(handler)

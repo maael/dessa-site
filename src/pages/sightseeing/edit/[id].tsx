@@ -48,11 +48,13 @@ export default function SightseeingCapture() {
         ref={formRef}
         onSubmit={async (e) => {
           e.preventDefault()
-          const name = (e.target as any).name.value
-          const description = (e.target as any).description.value
-          const entries = Object.values(formRef.current || {})
-            .filter((en) => (en.name || '').startsWith('entries['))
-            .reduce((acc, en) => ({ ...acc, [en.name]: en.value }), {})
+          const form = (e.target as any).elements
+          const name = form.name.value
+          const description = form.description.value
+          const media = form.media.files.item(0)
+          const entries = Object.entries(form)
+            .filter(([name]) => (name || '').startsWith('entries['))
+            .reduce((acc, [name, el]: any) => ({ ...acc, [name]: el.files ? el.files.item(0) : el.value }), {})
           const cleanEntries: any[] = Object.entries(entries).reduce((acc, [k, v]) => {
             const match = k.match(/entries\[(?<idx>\d+)\]\[(?<field>.+)\]/)
             if (!match || !match.groups) return acc
@@ -63,8 +65,8 @@ export default function SightseeingCapture() {
             return acc
           }, [])
 
-          const items = cleanEntries.map(({ hint, x, y, avatar }) => ({
-            hint: { text: hint },
+          const items = cleanEntries.map(({ hint, x, y, avatar, media }) => ({
+            hint: { text: hint, media },
             player: { x, y },
             avatar: JSON.parse(avatar),
           }))
@@ -73,6 +75,7 @@ export default function SightseeingCapture() {
             _id: safeId,
             name,
             description,
+            media,
             difficulty: 5,
             items,
           }
@@ -110,6 +113,16 @@ export default function SightseeingCapture() {
                 className="p-2 bg-blue-300 rounded-md flex-1 overflow-ellipsis placeholder-black text-black"
               />
             </div>
+            <div className="flex gap-2 items-center">
+              <p className="bg-blue-400 p-1 rounded-md w-24 text-center">Media</p>
+              <input
+                name="media"
+                type="file"
+                defaultValue={(data as typeof data | undefined) && data?.media}
+                placeholder="Media..."
+                className="p-2 bg-blue-300 rounded-md flex-1 overflow-ellipsis placeholder-black text-black"
+              />
+            </div>
           </div>
         </div>
         <div className="flex flex-col justify-center items-center mt-5 w-full pr-2 pl-2 pb-10">
@@ -132,6 +145,7 @@ export default function SightseeingCapture() {
                         name: 'Syaoranli',
                       },
                       hint: '',
+                      media: null,
                     } as unknown) as LinkData)
                 )
               )
@@ -172,6 +186,15 @@ export default function SightseeingCapture() {
                     name={`entries[${idx}][hint]`}
                     defaultValue={(i as any).hint}
                     placeholder="Hint..."
+                    className="p-2 bg-blue-300 rounded-md w-full overflow-ellipsis placeholder-black text-black"
+                  />
+                </div>
+                <div>
+                  <input
+                    type="file"
+                    name={`entries[${idx}][media]`}
+                    defaultValue={(i as any).media}
+                    placeholder="Media..."
                     className="p-2 bg-blue-300 rounded-md w-full overflow-ellipsis placeholder-black text-black"
                   />
                 </div>
