@@ -1,5 +1,7 @@
 import { Document, Schema, Model } from 'mongoose'
-import { connection } from '../mongo'
+import { connect } from '../mongo'
+
+const connection = connect()
 
 export interface SightseeingItem {
   hint: {

@@ -1,7 +1,9 @@
 import { Document, Schema, Model } from 'mongoose'
-import { connection } from '../mongo'
+import { connect } from '../mongo'
 import { SightseeingItemSchema, SightseeingItem } from './SightseeingItem'
 import { UserSchema, User } from './User'
+
+const connection = connect()
 
 export interface SightseeingChallenge {
   name: string
