@@ -1,15 +1,20 @@
+import Link from 'next/link'
 import { useRouter } from 'next/router'
 import HeaderNav from '../../../components/primitives/HeaderNav'
 import { useSightseeingChallenge } from '../../../util/api'
 
 export default function Sightseeing() {
-  const { query } = useRouter()
+  const { query, asPath } = useRouter()
   const { data } = useSightseeingChallenge(query.id as string)
 
   return (
     <div>
       <HeaderNav />
-      <div className="title text-4xl md:text-6xl text-center">{data?.name}</div>
+      <Link href={asPath.replace('/leaderboard', '')}>
+        <a>
+          <div className="title text-4xl md:text-6xl text-center">{data?.name}</div>
+        </a>
+      </Link>
       <div className="title text-2xl text-center">{data?.description}</div>
       <div className="flex flex-col justify-center items-center mt-5 w-full pr-2 pl-2">
         <div className="title text-4xl">Leaderboard</div>

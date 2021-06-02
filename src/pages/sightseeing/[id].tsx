@@ -1,11 +1,31 @@
 import { useEffect, useState } from 'react'
+import Image from 'next/image'
 import { useRouter } from 'next/router'
 import Link from 'next/link'
+import { FaRegHeart as IconLike } from 'react-icons/fa'
 import useLink from '../../components/hooks/useLink'
 import useNativeNotifications from '../../components/hooks/useNativeNotifications'
 import HeaderNav from '../../components/primitives/HeaderNav'
 import Spinner from '../../components/primitives/Spinner'
 import { useSightseeingChallenge } from '../../util/api'
+import { SightseeingEntry } from '../../types/db'
+
+function ItemCard({ item: i }: { item: SightseeingEntry }) {
+  return (
+    <div className="flex flex-col justify-center shadow-lg rounded-md bg-blue-900 text-white px-4 py-4 gap-2">
+      {i.hint.media && i.hint.media !== 'null' ? (
+        <div className="w-full h-80 relative rounded-sm overflow-hidden shadow-md bg-blue-500">
+          <Image src={i.hint.media} layout="fill" objectFit="cover" objectPosition="center" />
+        </div>
+      ) : null}
+      <div className="flex flex-row items-center justify-center">
+        <div className="flex-1 gap-1 flex flex-col">
+          <div className="text-lg font-bold text-center">{i.hint.text}</div>
+        </div>
+      </div>
+    </div>
+  )
+}
 
 export default function Sightseeing() {
   const { link } = useLink()
@@ -40,9 +60,15 @@ export default function Sightseeing() {
         <>
           <div className="title text-4xl md:text-6xl text-center">{data?.name}</div>
           <div className="title text-2xl text-center">{data?.description}</div>
-          <div className="flex flex-col justify-center items-center">
+          <div className="title text-2xl text-center flex flex-row items-center justify-center gap-2 pb-5">
+            {data?.likes} <IconLike size={25} />
+          </div>
+          <div className="flex flex-col justify-center items-center gap-5">
             <Link href={`/sightseeing/${query.id}/leaderboard`}>
               <a className="button mt-2">View leaderboard →</a>
+            </Link>
+            <Link href={`/sightseeing/edit/${query.id}`}>
+              <a className="button mt-2">Edit →</a>
             </Link>
             {allowedNotifications ? null : (
               <button className="button mt-2" onClick={requestPermission}>
@@ -51,33 +77,19 @@ export default function Sightseeing() {
             )}
           </div>
           <div className="title text-2xl text-center">Found</div>
-          <div className="flex flex-col justify-center items-center mt-5 w-full pr-2 pl-2">
+          <div className="w-full mt-10 px-5 md:w-1/2 md:mx-auto gap-5 flex-col grid md:grid-cols-2">
             {data?.items
               .filter((i) => found.includes(i._id))
               .map((i) => (
-                <div
-                  key={i._id}
-                  className="w-full mb-5 grid gap-10 md:gap-20 grid-cols-1 md:grid-cols-5 xl:grid-cols-7 place-content-center mr-2 ml-2"
-                >
-                  <div className="md:col-start-2 xl:col-start-3 col-span-3 flex flex-col justify-center shadow-lg rounded-md bg-blue-900 text-white pr-4 pl-4 pt-6 pb-6">
-                    {i.hint.text}
-                  </div>
-                </div>
+                <ItemCard key={i._id} item={i} />
               ))}
           </div>
           <div className="title text-2xl text-center">To find</div>
-          <div className="flex flex-col justify-center items-center mt-5 w-full pr-2 pl-2">
+          <div className="w-full mt-10 px-5 md:w-1/2 md:mx-auto gap-5 flex-col grid md:grid-cols-2">
             {data?.items
               .filter((i) => !found.includes(i._id))
               .map((i) => (
-                <div
-                  key={i._id}
-                  className="w-full mb-5 grid gap-10 md:gap-20 grid-cols-1 md:grid-cols-5 xl:grid-cols-7 place-content-center mr-2 ml-2"
-                >
-                  <div className="md:col-start-2 xl:col-start-3 col-span-3 flex flex-col justify-center shadow-lg rounded-md bg-blue-900 text-white pr-4 pl-4 pt-6 pb-6">
-                    {i.hint.text}
-                  </div>
-                </div>
+                <ItemCard key={i._id} item={i} />
               ))}
           </div>
         </>

@@ -1,5 +1,6 @@
 import { createRef, useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
+import Image from 'next/image'
 import HeaderNav from '../../../components/primitives/HeaderNav'
 import useLink from '../../../components/hooks/useLink'
 import { useSightseeingChallenge, useSightseeingChallengeCreateOrUpdate } from '../../../util/api'
@@ -32,6 +33,7 @@ export default function SightseeingCapture() {
               },
               _id,
               hint: hint.text,
+              media: hint.media,
             } as unknown) as LinkData)
         )
       )
@@ -118,7 +120,6 @@ export default function SightseeingCapture() {
               <input
                 name="media"
                 type="file"
-                defaultValue={(data as typeof data | undefined) && data?.media}
                 placeholder="Media..."
                 className="p-2 bg-blue-300 rounded-md flex-1 overflow-ellipsis placeholder-black text-black"
               />
@@ -193,11 +194,15 @@ export default function SightseeingCapture() {
                   <input
                     type="file"
                     name={`entries[${idx}][media]`}
-                    defaultValue={(i as any).media}
                     placeholder="Media..."
                     className="p-2 bg-blue-300 rounded-md w-full overflow-ellipsis placeholder-black text-black"
                   />
                 </div>
+                {(i as any).media && (i as any).media !== 'null' ? (
+                  <div className="relative h-40 w-full rounded-sm overflow-hidden">
+                    <Image src={(i as any).media} layout="fill" objectFit="contain" />
+                  </div>
+                ) : null}
               </div>
             </div>
           ))}
