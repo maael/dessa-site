@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useRouter } from 'next/router'
 import Image from 'next/image'
 import Link from 'next/link'
 import classnames from 'classnames'
@@ -8,7 +9,8 @@ import ConnectionWelcome from '../components/primitives/ConnectionWelcome'
 import Spinner from '../components/primitives/Spinner'
 
 export default function Index() {
-  const [highlightInstall, setHighlightInstall] = useState(false)
+  const { asPath } = useRouter()
+  const [highlightInstall, setHighlightInstall] = useState(() => asPath.includes('#installation'))
   return (
     <div className="h-full flex flex-col">
       <div className="bg-gray-800 flex-1 flex flex-col items-center pb-10">

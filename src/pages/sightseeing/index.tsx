@@ -21,6 +21,38 @@ export default function Sightseeing() {
           </Link>
         </div>
       ) : null}
+      <div className="px-2 md:px-0">
+        <div className="bg-blue-800 px-3 py-5 md:p-5 my-10 rounded-md w-full md:w-1/2 md:mx-auto flex flex-col gap-2 shadow-md">
+          <h2 className="title" style={{ margin: 0 }}>
+            What is this?
+          </h2>
+          <p>Good question!</p>
+          <p>
+            If you've played FFXIV, then it's pretty much a version of the Sightseeing Log from there, just as a plugin
+            and website.
+          </p>
+          <p>
+            If you've not played FFXIV, then it's a plugin and website, that lets you hunt around for spots in the
+            glorious game of Guild Wars 2 based on hints, and it'll tick them off once you've found them.
+          </p>
+          <h2 className="title" style={{ marginBottom: 0, marginTop: '1em' }}>
+            How's it work?
+          </h2>
+          <p>
+            First off, you need to install the plugin, Dessa, which you can find instructions on how to do{' '}
+            <Link href="/#installation">
+              <a className="font-bold hover:underline text-blue-400">right here</a>
+            </Link>
+            .
+          </p>
+          <p>Then, just come back here, and choose a challenge, and click on it.</p>
+          <p>
+            If you keep the page in the background (or another monitor ideally), you can then run around in Guild Wars 2
+            and hunt down those locations, and see over on the page as they get ticked off.
+          </p>
+          <p>Think a challenge is good? You can like it (up to 10 times) to show your appreciation!</p>
+        </div>
+      </div>
       {isLoading ? (
         <div className="flex justify-center items-center">
           <Spinner />
