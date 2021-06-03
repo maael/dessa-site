@@ -7,7 +7,7 @@ import useLink from '../../components/hooks/useLink'
 import useNativeNotifications from '../../components/hooks/useNativeNotifications'
 import HeaderNav from '../../components/primitives/HeaderNav'
 import Spinner from '../../components/primitives/Spinner'
-import { useSightseeingChallenge } from '../../util/api'
+import { useSightseeingChallenge, useSightseeingChallengeLike } from '../../util/api'
 import { SightseeingEntry } from '../../types/db'
 
 function ItemCard({ item: i }: { item: SightseeingEntry }) {
@@ -49,6 +49,8 @@ export default function Sightseeing() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [link?.avatar.position, data, found])
 
+  const { mutate } = useSightseeingChallengeLike()
+
   return (
     <div>
       <HeaderNav />
@@ -57,11 +59,21 @@ export default function Sightseeing() {
           <Spinner />
         </div>
       ) : (
-        <>
-          <div className="title text-4xl md:text-6xl text-center">{data?.name}</div>
-          <div className="title text-2xl text-center">{data?.description}</div>
-          <div className="title text-2xl text-center flex flex-row items-center justify-center gap-2 pb-5">
-            {data?.likes} <IconLike size={25} />
+        <div className="pb-10">
+          {data?.media && data?.media !== 'null' ? (
+            <div className="w-3/4 mx-auto h-80 relative rounded-sm overflow-hidden shadow-md bg-blue-500 mt-16 mb-16">
+              <Image src={data?.media} layout="fill" objectFit="cover" objectPosition="center" />
+            </div>
+          ) : null}
+          <div className="mt-10">
+            <div className="title text-4xl md:text-6xl text-center">{data?.name}</div>
+            <div className="title text-2xl text-center">{data?.description}</div>
+            <div
+              className="title text-2xl text-center flex flex-row items-center justify-center gap-2 pb-5 cursor-pointer select-none"
+              onClick={() => mutate(query.id as string)}
+            >
+              {data?.likes} <IconLike size={25} />
+            </div>
           </div>
           <div className="flex flex-col justify-center items-center gap-5">
             <Link href={`/sightseeing/${query.id}/leaderboard`}>
@@ -92,7 +104,7 @@ export default function Sightseeing() {
                 <ItemCard key={i._id} item={i} />
               ))}
           </div>
-        </>
+        </div>
       )}
     </div>
   )

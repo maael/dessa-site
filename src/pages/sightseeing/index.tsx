@@ -8,15 +8,20 @@ import { useSightseeingChallenges } from '../../util/api'
 export default function Sightseeing() {
   const { data = [] } = useSightseeingChallenges()
   return (
-    <div>
+    <div className="pb-10">
       <HeaderNav />
       <div className="title text-4xl md:text-6xl text-center">Sightseeing Challenges</div>
+      <div className="flex flex-row justify-center items-center pt-2">
+        <Link href={`/sightseeing/edit/new`}>
+          <a className="button mt-2">Create New Challenge →</a>
+        </Link>
+      </div>
       <div className="w-full mt-10 px-5 md:w-1/2 md:mx-auto gap-5 flex-col grid md:grid-cols-2">
         {data.map((i) => (
           <Link key={i._id} href={`/sightseeing/${i._id}`}>
             <a>
               <div className="flex flex-col justify-center shadow-lg rounded-md bg-blue-900 text-white px-4 py-4 gap-2">
-                {i.media ? (
+                {i.media && i.media !== 'null' ? (
                   <div className="w-full h-60 relative rounded-sm overflow-hidden shadow-md bg-blue-500">
                     <Image src={i.media} layout="fill" objectFit="cover" objectPosition="center" />
                   </div>

@@ -1,12 +1,16 @@
 import mongoose from 'mongoose'
 
-export function connect() {
-  if (mongoose.connections[0] && mongoose.connections[0].readyState) return mongoose.connections[0]
+let connection: mongoose.Connection
 
-  return mongoose.createConnection(process.env.MONGO_DB_URI!, {
+export function connect() {
+  if (connection) return connection
+  console.info('[new connection]')
+  connection = mongoose.createConnection(process.env.MONGO_DB_URI!, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
     useFindAndModify: false,
     useCreateIndex: true,
   })
+
+  return connection
 }

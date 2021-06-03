@@ -95,10 +95,7 @@ export default function Index() {
                 <div className="card-icon-area">
                   <FaSpinner />
                 </div>
-                <div className="flex-1">
-                  A rotation tester, to let you practice and learn your skill ordering against a defined list of skills
-                  for openers, for those huge numbers.
-                </div>
+                <div className="flex-1">A very basic rotation tester. Mainly just to show arcDps integration.</div>
                 <HiArrowCircleRight className="mt-4 text-4xl" />
               </a>
             </Link>
@@ -165,11 +162,8 @@ export default function Index() {
                 </li>
                 <li className="pb-2 pt-2">
                   Move to your Guild Wars 2 bin64 folder, depending on where you installed the game this will be
-                  something like{' '}
-                  <code className="bg-blue-500 px-1 rounded-sm text-sm whitespace-nowrap">
-                    C:\Program Files\Guild Wars 2\bin64
-                  </code>
-                  .
+                  something like: <br />
+                  <code className="bg-blue-500 px-1 rounded-sm text-sm">C:\Program Files\Guild Wars 2\bin64</code>
                 </li>
                 <li className="pb-2 pt-2">Start up the game and the message at the top of this page should change.</li>
                 <li className="pb-2 pt-2">You're good to go, that's it!</li>

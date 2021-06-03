@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import Image from 'next/image'
 import { useRouter } from 'next/router'
 import HeaderNav from '../../../components/primitives/HeaderNav'
 import { useSightseeingChallenge } from '../../../util/api'
@@ -10,6 +11,11 @@ export default function Sightseeing() {
   return (
     <div>
       <HeaderNav />
+      {data?.media && data?.media !== 'null' ? (
+        <div className="w-3/4 mx-auto h-80 relative rounded-sm overflow-hidden shadow-md bg-blue-500 mt-16 mb-16">
+          <Image src={data?.media} layout="fill" objectFit="cover" objectPosition="center" />
+        </div>
+      ) : null}
       <Link href={asPath.replace('/leaderboard', '')}>
         <a>
           <div className="title text-4xl md:text-6xl text-center">{data?.name}</div>

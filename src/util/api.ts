@@ -1,5 +1,5 @@
 import fetch from 'isomorphic-fetch'
-import { useQuery, useMutation } from 'react-query'
+import { useQuery, useMutation, useQueryClient } from 'react-query'
 import { SightseeingChallenge } from '../types/db'
 
 export enum Keys {
@@ -57,4 +57,23 @@ export async function createOrUpdateSightseeingChallenge(challenge: any) {
 
 export function useSightseeingChallengeCreateOrUpdate() {
   return useMutation(createOrUpdateSightseeingChallenge)
+}
+
+export async function likeSightseeingChallenge(id: string) {
+  const url = `/api/sightseeing?id=${id}&action=like`
+  const res = await fetch(url, { method: 'PUT' })
+  if (!res.ok) throw new Error('Network response was not ok')
+  return res.json()
+}
+
+export function useSightseeingChallengeLike() {
+  const queryClient = useQueryClient()
+  return useMutation(likeSightseeingChallenge, {
+    onMutate: async (id) => {
+      await queryClient.cancelQueries([Keys.SightseeingChallenge, id])
+      const previousValue = queryClient.getQueryData([Keys.SightseeingChallenge, id])
+      ;(previousValue as any).likes++
+      return previousValue
+    },
+  })
 }

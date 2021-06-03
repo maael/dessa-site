@@ -53,6 +53,7 @@ export default function SightseeingCapture() {
           const form = (e.target as any).elements
           const name = form.name.value
           const description = form.description.value
+          const existingMedia = form.existingMedia.value
           const media = form.media.files.item(0)
           const entries = Object.entries(form)
             .filter(([name]) => (name || '').startsWith('entries['))
@@ -62,13 +63,13 @@ export default function SightseeingCapture() {
             if (!match || !match.groups) return acc
             acc[match.groups.idx] = {
               ...(acc[match.groups.idx] || {}),
-              [match.groups.field]: v,
+              [match.groups.field]: v === 'null' ? null : v,
             }
             return acc
           }, [])
 
-          const items = cleanEntries.map(({ hint, x, y, avatar, media }) => ({
-            hint: { text: hint, media },
+          const items = cleanEntries.map(({ hint, x, y, avatar, media, existingMedia }) => ({
+            hint: { text: hint, media: existingMedia || media },
             player: { x, y },
             avatar: JSON.parse(avatar),
           }))
@@ -77,7 +78,7 @@ export default function SightseeingCapture() {
             _id: safeId,
             name,
             description,
-            media,
+            media: existingMedia || media,
             difficulty: 5,
             items,
           }
@@ -123,7 +124,13 @@ export default function SightseeingCapture() {
                 placeholder="Media..."
                 className="p-2 bg-blue-300 rounded-md flex-1 overflow-ellipsis placeholder-black text-black"
               />
+              <input type="hidden" name="existingMedia" value={data?.media} />
             </div>
+            {data?.media && data?.media !== 'null' ? (
+              <div className="relative h-40 w-full rounded-sm overflow-hidden">
+                <Image src={data.media} layout="fill" objectFit="contain" />
+              </div>
+            ) : null}
           </div>
         </div>
         <div className="flex flex-col justify-center items-center mt-5 w-full pr-2 pl-2 pb-10">
@@ -197,6 +204,7 @@ export default function SightseeingCapture() {
                     placeholder="Media..."
                     className="p-2 bg-blue-300 rounded-md w-full overflow-ellipsis placeholder-black text-black"
                   />
+                  <input type="hidden" name={`entries[${idx}][existingMedia]`} value={(i as any).media} />
                 </div>
                 {(i as any).media && (i as any).media !== 'null' ? (
                   <div className="relative h-40 w-full rounded-sm overflow-hidden">
