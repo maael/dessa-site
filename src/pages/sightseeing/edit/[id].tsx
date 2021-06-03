@@ -1,21 +1,27 @@
 import { createRef, useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 import Image from 'next/image'
+import { FaTimesCircle as IconClose } from 'react-icons/fa'
 import HeaderNav from '../../../components/primitives/HeaderNav'
 import useLink from '../../../components/hooks/useLink'
-import { useSightseeingChallenge, useSightseeingChallengeCreateOrUpdate } from '../../../util/api'
+import {
+  useSightseeingChallenge,
+  useSightseeingChallengeCreateOrUpdate,
+  useSightseeingChallengeDelete,
+} from '../../../util/api'
 import { LinkData } from '../../../types/dessa'
 
 export default function SightseeingCapture() {
   const { query, push } = useRouter()
   const { id: qId } = query
   const safeId = qId === 'new' ? null : (qId as string)
-  const { data } = useSightseeingChallenge(safeId)
+  const { data, isLoading } = useSightseeingChallenge(safeId)
   const { mutate } = useSightseeingChallengeCreateOrUpdate()
+  const { mutate: deleteChallenge } = useSightseeingChallengeDelete()
 
   const [capturedLinks, setCapturedLinks] = useState<LinkData[]>([])
   useEffect(() => {
-    if (data?.items.length && !capturedLinks.length) {
+    if (!isLoading && data) {
       setCapturedLinks(
         data.items.map(
           ({ _id, avatar, hint, player }, i) =>
@@ -39,7 +45,7 @@ export default function SightseeingCapture() {
       )
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [data?.items.length, capturedLinks])
+  }, [isLoading, data?.items.length])
   const { link } = useLink()
   const formRef = createRef<HTMLFormElement>()
   return (
@@ -85,14 +91,25 @@ export default function SightseeingCapture() {
 
           await mutate(challenge, {
             onSuccess: async (result) => {
+              console.info(result)
               push(`/sightseeing/${result._id}`)
             },
           })
         }}
       >
-        <div className="mt-10 flex justify-center items-center">
+        <div className="mt-10 flex justify-center items-center gap-10">
           <button className="button mb-5" type="submit">
             Save
+          </button>
+          <button
+            className="bad-button mb-5"
+            onClick={(e) => {
+              e.preventDefault()
+              deleteChallenge(safeId!)
+              push('/sightseeing')
+            }}
+          >
+            Delete
           </button>
         </div>
         <div className="w-full mb-5 grid gap-10 md:gap-20 grid-cols-1 md:grid-cols-5 xl:grid-cols-7 place-content-center">
@@ -124,7 +141,7 @@ export default function SightseeingCapture() {
                 placeholder="Media..."
                 className="p-2 bg-blue-300 rounded-md flex-1 overflow-ellipsis placeholder-black text-black"
               />
-              <input type="hidden" name="existingMedia" value={data?.media} />
+              <input type="hidden" name="existingMedia" value={data?.media || ''} />
             </div>
             {data?.media && data?.media !== 'null' ? (
               <div className="relative h-40 w-full rounded-sm overflow-hidden">
@@ -136,7 +153,8 @@ export default function SightseeingCapture() {
         <div className="flex flex-col justify-center items-center mt-5 w-full pr-2 pl-2 pb-10">
           <button
             className="button mb-5"
-            onClick={() =>
+            onClick={(e) => {
+              e.preventDefault()
               setCapturedLinks((l) =>
                 l.concat(
                   link ||
@@ -157,7 +175,7 @@ export default function SightseeingCapture() {
                     } as unknown) as LinkData)
                 )
               )
-            }
+            }}
           >
             Capture New Entry
           </button>
@@ -187,6 +205,17 @@ export default function SightseeingCapture() {
                       value={i.avatar.position.map((j) => j.toFixed(2)).join(', ')}
                       className="p-2 bg-blue-400 rounded-md flex-1 overflow-ellipsis placeholder-black text-black"
                     />
+                    <div
+                      className="select-none cursor-pointer text-red-500"
+                      onClick={() =>
+                        setCapturedLinks((l) => {
+                          console.info(idx, l.slice(0, idx).concat(l.slice(idx + 1)))
+                          return l.slice(0, idx).concat(l.slice(idx + 1))
+                        })
+                      }
+                    >
+                      <IconClose size={30} />
+                    </div>
                   </div>
                 </div>
                 <div>
@@ -204,7 +233,7 @@ export default function SightseeingCapture() {
                     placeholder="Media..."
                     className="p-2 bg-blue-300 rounded-md w-full overflow-ellipsis placeholder-black text-black"
                   />
-                  <input type="hidden" name={`entries[${idx}][existingMedia]`} value={(i as any).media} />
+                  <input type="hidden" name={`entries[${idx}][existingMedia]`} value={(i as any).media || ''} />
                 </div>
                 {(i as any).media && (i as any).media !== 'null' ? (
                   <div className="relative h-40 w-full rounded-sm overflow-hidden">

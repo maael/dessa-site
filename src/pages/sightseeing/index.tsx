@@ -1,21 +1,25 @@
 import Image from 'next/image'
 import Link from 'next/link'
+import { useRouter } from 'next/router'
 import { FaRegHeart as IconLike, FaMapMarkerAlt as IconPin } from 'react-icons/fa'
 import format from 'date-fns/format'
 import HeaderNav from '../../components/primitives/HeaderNav'
 import { useSightseeingChallenges } from '../../util/api'
 
 export default function Sightseeing() {
+  const { query } = useRouter()
   const { data = [] } = useSightseeingChallenges()
   return (
     <div className="pb-10">
       <HeaderNav />
       <div className="title text-4xl md:text-6xl text-center">Sightseeing Challenges</div>
-      <div className="flex flex-row justify-center items-center pt-2">
-        <Link href={`/sightseeing/edit/new`}>
-          <a className="button mt-2">Create New Challenge →</a>
-        </Link>
-      </div>
+      {query.editing ? (
+        <div className="flex flex-row justify-center items-center pt-2">
+          <Link href={`/sightseeing/edit/new`}>
+            <a className="button mt-2">Create New Challenge →</a>
+          </Link>
+        </div>
+      ) : null}
       <div className="w-full mt-10 px-5 md:w-1/2 md:mx-auto gap-5 flex-col grid md:grid-cols-2">
         {data.map((i) => (
           <Link key={i._id} href={`/sightseeing/${i._id}`}>

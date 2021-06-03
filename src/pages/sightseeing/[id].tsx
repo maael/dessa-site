@@ -1,9 +1,10 @@
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
 import Link from 'next/link'
 import { FaRegHeart as IconLike } from 'react-icons/fa'
 import useLink from '../../components/hooks/useLink'
+import useLocalStorage, { Keys } from '../../components/hooks/useLocalStorage'
 import useNativeNotifications from '../../components/hooks/useNativeNotifications'
 import HeaderNav from '../../components/primitives/HeaderNav'
 import Spinner from '../../components/primitives/Spinner'
@@ -30,7 +31,7 @@ function ItemCard({ item: i }: { item: SightseeingEntry }) {
 export default function Sightseeing() {
   const { link } = useLink()
   const { query } = useRouter()
-  const [found, setFound] = useState<string[]>([])
+  const [found = [], setFound] = useLocalStorage<string[]>(Keys.FoundSightseeingItems, [])
   const { sendNotification, requestPermission, allowed: allowedNotifications } = useNativeNotifications()
   const { data, isLoading } = useSightseeingChallenge(query.id as string)
   useEffect(() => {
@@ -43,7 +44,7 @@ export default function Sightseeing() {
         newFound.forEach((f) => {
           sendNotification(`Found Dessa sightseeing location`, `For hint: ${f.hint.text}`)
         })
-        setFound((f) => [...new Set([...f, ...currentFound.map(({ _id }) => _id)])])
+        setFound((f) => [...new Set([...(f || []), ...currentFound.map(({ _id }) => _id)])])
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -79,9 +80,11 @@ export default function Sightseeing() {
             <Link href={`/sightseeing/${query.id}/leaderboard`}>
               <a className="button mt-2">View leaderboard →</a>
             </Link>
-            <Link href={`/sightseeing/edit/${query.id}`}>
-              <a className="button mt-2">Edit →</a>
-            </Link>
+            {query.editing ? (
+              <Link href={`/sightseeing/edit/${query.id}`}>
+                <a className="button mt-2">Edit →</a>
+              </Link>
+            ) : null}
             {allowedNotifications ? null : (
               <button className="button mt-2" onClick={requestPermission}>
                 Allow notifications?

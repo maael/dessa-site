@@ -101,6 +101,10 @@ body {
   @apply shadow-lg cursor-pointer transform hover:translate-y-1 transition-all select-none hover:bg-blue-500 rounded-md bg-blue-400 text-white pr-5 pl-5 pt-2 pb-2 flex justify-center items-center ring-2 ring-blue-400 ring-offset-4 ring-offset-gray-800;
 }
 
+.bad-button {
+  @apply shadow-lg cursor-pointer transform hover:translate-y-1 transition-all select-none hover:bg-red-500 rounded-md bg-red-400 text-white pr-5 pl-5 pt-2 pb-2 flex justify-center items-center ring-2 ring-red-400 ring-offset-4 ring-offset-gray-800;
+}
+
 .reverse {
   animation-direction: reverse;
 }

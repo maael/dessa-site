@@ -77,3 +77,14 @@ export function useSightseeingChallengeLike() {
     },
   })
 }
+
+export async function deleteSightseeingChallenge(id: string) {
+  const url = `/api/sightseeing?id=${id}`
+  const res = await fetch(url, { method: 'DELETE' })
+  if (!res.ok) throw new Error('Network response was not ok')
+  return res.json()
+}
+
+export function useSightseeingChallengeDelete() {
+  return useMutation(deleteSightseeingChallenge)
+}

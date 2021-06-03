@@ -3,7 +3,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import classnames from 'classnames'
 import { HiArrowCircleRight, HiEye, HiCog } from 'react-icons/hi'
-import { FaDiscord, FaMapMarkedAlt, FaSpinner, FaGithub } from 'react-icons/fa'
+import { FaDiscord, FaMapMarkedAlt, FaSpinner, FaGithub, FaReddit } from 'react-icons/fa'
 import ConnectionWelcome from '../components/primitives/ConnectionWelcome'
 import Spinner from '../components/primitives/Spinner'
 
@@ -234,8 +234,17 @@ export default function Index() {
       </div>
       <div className="p-1 bg-gray-700 text-white text-center flex justify-center items-center">
         Made by
-        <a className="font-bold ml-1 text-blue-400 hover:text-blue-500" href="https://githib.com/maael">
-          Maael
+        <a
+          className="font-bold ml-1 text-blue-400 hover:text-blue-500 flex flex-row justify-center items-center gap-1"
+          href="https://github.com/maael"
+        >
+          <FaGithub /> Maael
+        </a>
+        <a
+          className="font-bold ml-1 text-blue-400 hover:text-blue-500 flex flex-row justify-center items-center gap-1"
+          href="http://reddit.com/u/maael"
+        >
+          <FaReddit /> Maael
         </a>
       </div>
     </div>

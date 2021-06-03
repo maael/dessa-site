@@ -31,7 +31,7 @@ export default function Sightseeing() {
               <div className="flex-1">Name</div>
               <div className="flex-1">Finished at</div>
             </div>
-            <div className="p-5 text-center">No entries yet</div>
+            <div className="p-5 text-center">No entries yet, leaderboards and saved accounts aren't a thing yet</div>
           </div>
         </div>
       </div>

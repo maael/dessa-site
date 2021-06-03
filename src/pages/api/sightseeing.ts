@@ -20,7 +20,7 @@ const handler: NextApiHandler = async (req, res) => {
     const { fields, files } = await getFormData(req, res, id)
     const fieldsWithFiles = attachFiles(fields, files)
     const created = await SightseeingChallenge.create([{ _id: id, ...fieldsWithFiles }])
-    return res.json(created)
+    return res.json(created[0])
   } else if (req.method === 'PUT') {
     if (action === 'like') {
       if (!id) {
@@ -46,6 +46,12 @@ const handler: NextApiHandler = async (req, res) => {
     const fieldsWithFiles = attachFiles(fields, files)
     const challenge = await SightseeingChallenge.findByIdAndUpdate(id, fieldsWithFiles, { new: true })
     return res.json(challenge)
+  } else if (req.method === 'DELETE') {
+    if (!id) {
+      throw new Error('Missing ID')
+    }
+    await SightseeingChallenge.deleteOne({ _id: id })
+    return res.json({ id })
   } else {
     res.status(501).json({ error: 'Not implemented' })
   }
