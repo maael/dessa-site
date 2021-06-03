@@ -242,7 +242,7 @@ export default function Index() {
         </a>
         <a
           className="font-bold ml-1 text-blue-400 hover:text-blue-500 flex flex-row justify-center items-center gap-1"
-          href="http://reddit.com/u/maael"
+          href="https://reddit.com/u/maael"
         >
           <FaReddit /> Maael
         </a>
