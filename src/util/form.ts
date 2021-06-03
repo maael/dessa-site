@@ -10,7 +10,7 @@ const s3 = new S3({
   secretAccessKey: process.env.S3_SECRET_ACCESS_KEY,
 })
 
-const TWO_MB = 2e6
+const THREE_MB = 3e6
 
 function cleanNulls(val: any, _: string) {
   return typeof val === 'string' ? (val === 'null' ? null : val) : val
@@ -44,8 +44,12 @@ export function getFormData(req: NextApiRequest, res: NextApiResponse, id?: stri
         cb(null, `sightseeing/${id || (req as any).body._id}/${path}-${format(new Date(), 'yy-MM-dd--HH-mm')}`)
       },
     }),
-    limits: {
-      fileSize: TWO_MB,
+    fileFilter: function (_req, file, cb) {
+      if (file.size > THREE_MB) {
+        return cb(new Error('File larger than the limit (3MB)!'))
+      } else {
+        return cb(null, true)
+      }
     },
   })
   return new Promise((resolve, reject) => {
