@@ -37,6 +37,16 @@ export default function Index() {
               </div>
               A tool to help open up all the data about you playing Guild Wars 2, so it can be used to create
               interesting tools that react to what's actually happening in the game as you play.
+              <br />
+              <br />
+              <p>
+                Plus, I made it because I wanted the Sightseeing Log from Final Fantasy XIV in Guild Wars 2, as Guild
+                Wars 2 is a super fun game to explore, and this is an excuse to do just that. You can check that bit out{' '}
+                <Link href="/sightseeing">
+                  <a className="font-bold hover:underline text-blue-400">here</a>
+                </Link>
+                .
+              </p>
             </div>
           </div>
         </div>
@@ -215,7 +225,7 @@ export default function Index() {
                 </a>
                 , and we'll figure it out.
               </div>
-              <div>
+              <div className="mb-6">
                 <div className="title" style={{ marginTop: 0 }}>
                   I have an idea for something to add!
                 </div>
@@ -227,6 +237,16 @@ export default function Index() {
                   here
                 </a>
                 , and I'll get right on it.
+              </div>
+              <div>
+                <div className="title" style={{ marginTop: 0 }}>
+                  My inventory is cluttered and I need help!
+                </div>
+                Hey, I made another tool for that! Check out{' '}
+                <a className="font-bold hover:underline text-blue-400" href="https://dedupe.mael.tech">
+                  Dedupe-o-tron
+                </a>
+                , and get that inventory squeaky clean. Or try to anyway.
               </div>
             </div>
           </div>

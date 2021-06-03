@@ -44,7 +44,7 @@ export default function Sightseeing() {
                       <IconPin /> {i.items.length} Location{i.items.length === 1 ? '' : 's'}
                     </div>
                     <div className="text-xs">
-                      Created by {i.createdBy || 'Unknown User'} at {format(new Date(i.createdAt), 'dd/MM/yy')}
+                      Created by {i.createdBy || 'a child of the mists'} at {format(new Date(i.createdAt), 'dd/MM/yy')}
                     </div>
                   </div>
 
