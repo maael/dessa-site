@@ -33,7 +33,8 @@ export default function Sightseeing() {
           </p>
           <p>
             If you've not played FFXIV, then it's a plugin and website, that lets you hunt around for spots in the
-            glorious game of Guild Wars 2 based on hints, and it'll tick them off once you've found them.
+            glorious game of Guild Wars 2 based on hints, and it'll tick them off once you've found them. The idea is to
+            try to stand where you think the picture was taken, or where the hint suggests.
           </p>
           <h2 className="title" style={{ marginBottom: 0, marginTop: '1em' }}>
             How's it work?
