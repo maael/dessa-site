@@ -16,6 +16,10 @@ export default function Discord() {
             </div>
             <p className="text-xl font-bold">Features include:</p>
             <ol className="list-decimal pl-8 pr-6 spacing text-left">
+              <li className="py-2">
+                Once you've added Dessa, you can forget about it! It'll automatically set the Discord Rich prescence
+                information, and stop it when you quit
+              </li>
               <li className="py-2">Includes your character name</li>
               <li className="py-2">Includes your character class/specialisation</li>
               <li className="py-2">Includes your location, including correct fractal name</li>

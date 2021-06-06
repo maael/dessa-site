@@ -54,9 +54,9 @@ export default function Index() {
         </div>
         <div className="flex flex-col justify-center items-center">
           <div className="title text-4xl">Tools</div>
-          <div className="grid gap-5 grid-cols-1 xl:grid-cols-6 mt-1 place-content-center mr-2 ml-2 md:mr-10 md:ml-10">
+          <div className="grid gap-5 grid-cols-1 lg:grid-cols-6 mt-1 place-content-center mr-2 ml-2 md:mr-10 md:ml-10">
             <Link href="/discord">
-              <a className="xl:col-start-2 card">
+              <a className="lg:col-start-2 card">
                 <div className="card-icon-area">
                   <FaDiscord />
                 </div>
@@ -103,7 +103,7 @@ export default function Index() {
               </a>
             </Link> */}
             <Link href="/bestiary">
-              <a className="xl:col-start-1 card">
+              <a className="card">
                 <div className="card-icon-area">
                   <FaSkull />
                 </div>
