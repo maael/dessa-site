@@ -189,7 +189,10 @@ export default function Index() {
                   something like: <br />
                   <code className="bg-blue-500 px-1 rounded-sm text-sm">C:\Program Files\Guild Wars 2\bin64</code>
                 </li>
-                <li className="pb-2 pt-2">Start up the game and the message at the top of this page should change.</li>
+                <li className="pb-2 pt-2">
+                  Start up the game and load in as a character, and the message at the top of this page should change,
+                  with a green tick in the top right corner.
+                </li>
                 <li className="pb-2 pt-2">You're good to go, that's it!</li>
               </ol>
               <p className="text-center mt-2">
@@ -209,6 +212,20 @@ export default function Index() {
           <div className="title text-4xl">FAQs</div>
           <div className="w-full grid gap-10 md:gap-20 grid-cols-1 md:grid-cols-5 xl:grid-cols-7 place-content-center mr-2 ml-2">
             <div className="md:col-start-2 xl:col-start-3 col-span-3 flex flex-col justify-center shadow-lg rounded-md bg-blue-900 text-white pr-4 pl-4 pt-6 pb-6">
+              <div className="mb-6">
+                <div className="title" style={{ marginTop: 0 }}>
+                  How does this work?
+                </div>
+                It emits the{' '}
+                <a
+                  className="font-bold hover:underline text-blue-400"
+                  href="https://wiki.guildwars2.com/wiki/API:MumbleLink"
+                >
+                  MumbleLink data
+                </a>{' '}
+                that Guild Wars 2 provides, as well as the data arcDps pumps out, making it available to other
+                applications.
+              </div>
               <div className="mb-6">
                 <div className="title" style={{ marginTop: 0 }}>
                   My game info isn't showing in Discord, what gives?
