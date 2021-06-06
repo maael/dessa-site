@@ -1,7 +1,9 @@
 import '../styles/styles.css'
+import 'react-toastify/dist/ReactToastify.css'
 import Head from 'next/head'
 import { DefaultSeo } from 'next-seo'
 import { QueryClient, QueryClientProvider } from 'react-query'
+import { ToastContainer } from 'react-toastify'
 import useFathom from '../components/hooks/useFathom'
 import SEO from '../../next-seo.config'
 import EmojiFavicon from '../components/primitives/EmojiFavicon'
@@ -25,6 +27,7 @@ function App({ Component, pageProps }) {
         <ConnectionStatus />
         <Component {...pageProps} />
       </div>
+      <ToastContainer pauseOnFocusLoss={false} autoClose={3000} position="bottom-right" />
     </QueryClientProvider>
   )
 }

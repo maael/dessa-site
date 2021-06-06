@@ -1,6 +1,7 @@
-import { useMemo, useState } from 'react'
+import { useMemo, useState, useCallback } from 'react'
 import { FaCheckCircle } from 'react-icons/fa'
 import Fuse from 'fuse.js'
+import { toast } from 'react-toastify'
 import useLocalStorage, { Keys } from '../components/hooks/useLocalStorage'
 import useArcTemporary from '../components/hooks/useArcTemporary'
 import useDebounced from '../components/hooks/useDebounced'
@@ -19,7 +20,7 @@ type Bestiary = {
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const bestiaryData: Bestiary = require('../../data/bestiary-full.json')
-const bestiaryMap = new Map(bestiaryData.map((b) => [b.title, b]))
+const bestiaryMap = new Map(bestiaryData.map((b) => [b.title.replace(/\(.+\)/, '').trim(), b]))
 
 const fuse = new Fuse(bestiaryData, {
   isCaseSensitive: false,
@@ -90,18 +91,30 @@ export default function Bestiary() {
   const [found, setFound] = useLocalStorage<number[]>(Keys.FoundBestiary, [])
   const [search, setSearch] = useState('')
   const debouncedSearch = useDebounced(search, 300)
-  useArcTemporary((msg) => {
-    try {
-      const data = JSON.parse(msg.data)
-      const agName = data.ag_name
-      const beast = bestiaryMap.get(agName)
-      if (!beast) return
-      setFound((f) => [...new Set((f || []).concat(beast.pageid))])
-    } catch (e) {
-      console.error(e)
-    }
-  })
   const foundMap = useMemo(() => new Set<number>(found || ([] as any)), [found])
+  const msgHandler = useCallback(
+    (msg: any) => {
+      try {
+        const data = JSON.parse(msg.data)
+        const agName = data.ag_name
+        const beast = bestiaryMap.get(agName)
+        if (!beast || foundMap.has(beast.pageid)) return
+        setFound((f) => {
+          const fSet = new Set(f || [])
+          if (fSet.has(beast.pageid)) return f
+          toast(`Encountered ${beast.title}!`, {
+            type: 'success',
+          })
+          fSet.add(beast.pageid)
+          return [...fSet]
+        })
+      } catch (e) {
+        console.error(e)
+      }
+    },
+    [foundMap, setFound]
+  )
+  useArcTemporary(msgHandler)
   const items = useMemo(() => {
     if (debouncedSearch) {
       const result = fuse.search(debouncedSearch)
