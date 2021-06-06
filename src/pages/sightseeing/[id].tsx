@@ -3,6 +3,7 @@ import Image from 'next/image'
 import { useRouter } from 'next/router'
 import Link from 'next/link'
 import { FaRegHeart as IconLike } from 'react-icons/fa'
+import { toast } from 'react-toastify'
 import useLink from '../../components/hooks/useLink'
 import useLocalStorage, { Keys } from '../../components/hooks/useLocalStorage'
 import useNativeNotifications from '../../components/hooks/useNativeNotifications'
@@ -43,6 +44,10 @@ export default function Sightseeing() {
       if (newFound.length) {
         newFound.forEach((f) => {
           sendNotification(`Found Dessa sightseeing location`, `For hint: ${f.hint.text}`)
+          toast(`Found Dessa sightseeing location: ${f.hint.text}`, {
+            type: 'success',
+            autoClose: 10000,
+          })
         })
         setFound((f) => [...new Set([...(f || []), ...currentFound.map(({ _id }) => _id)])])
       }
