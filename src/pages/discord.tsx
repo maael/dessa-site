@@ -4,7 +4,7 @@ import HeaderNav from '../components/primitives/HeaderNav'
 
 export default function Discord() {
   return (
-    <div>
+    <div className="pb-5">
       <HeaderNav />
       <div className="title text-4xl md:text-6xl text-center">Discord Features</div>
       <div className="flex justify-center items-center mt-6 w-full">
