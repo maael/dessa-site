@@ -1,7 +1,9 @@
-import { useMemo } from 'react'
+import { useMemo, useState } from 'react'
 import { FaCheckCircle } from 'react-icons/fa'
+import Fuse from 'fuse.js'
 import useLocalStorage, { Keys } from '../components/hooks/useLocalStorage'
 import useArcTemporary from '../components/hooks/useArcTemporary'
+import useDebounced from '../components/hooks/useDebounced'
 import HeaderNav from '../components/primitives/HeaderNav'
 
 type Bestiary = {
@@ -18,6 +20,14 @@ type Bestiary = {
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const bestiaryData: Bestiary = require('../../data/bestiary-full.json')
 const bestiaryMap = new Map(bestiaryData.map((b) => [b.title, b]))
+
+const fuse = new Fuse(bestiaryData, {
+  isCaseSensitive: false,
+  ignoreLocation: true,
+  threshold: 0.2,
+  distance: 200,
+  keys: ['title', 'location', 'race', 'requires'],
+})
 
 const requireMap = {
   hot: 'HoT',
@@ -37,6 +47,8 @@ const colorMap = {
 
 export default function Bestiary() {
   const [found, setFound] = useLocalStorage<number[]>(Keys.FoundBestiary, [])
+  const [search, setSearch] = useState('')
+  const debouncedSearch = useDebounced(search, 300)
   useArcTemporary((msg) => {
     try {
       const data = JSON.parse(msg.data)
@@ -49,6 +61,14 @@ export default function Bestiary() {
     }
   })
   const foundMap = useMemo(() => new Set(found || ([] as any)), [found])
+  const items = useMemo(() => {
+    if (debouncedSearch) {
+      const result = fuse.search(debouncedSearch)
+      return result.map(({ item }) => item)
+    } else {
+      return bestiaryData
+    }
+  }, [debouncedSearch])
   return (
     <div>
       <HeaderNav />
@@ -66,8 +86,17 @@ export default function Bestiary() {
       <div className="title text-2xl md:text-4xl text-center">
         Encountered {foundMap.size} / {bestiaryData.length}
       </div>
+      <div className="text-center">
+        <input
+          className="bg-blue-800 rounded-md shadow-lg py-2 px-5 mx-auto w-full md:w-1/4 mt-5"
+          type="text"
+          placeholder="Search..."
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+        />
+      </div>
       <div className="grid grid-cols-4 gap-5 p-10 w-full md:w-3/4 mx-auto">
-        {bestiaryData.map(({ title, pageid, race, level, location, requires }) => {
+        {items.map(({ title, pageid, race, level, location, requires }) => {
           return (
             <div key={pageid} className="bg-blue-800 p-5 rounded-md shadow-lg relative overflow-hidden">
               <div className="flex flex-row">
