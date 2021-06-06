@@ -3,6 +3,7 @@
   --breakpoint-tablet: 768px;
   --breakpont-desktop: 992px;
   --desktop-only-display: none;
+  --color-background: #1f2937;
 }
 
 @media screen and (min-width: 576px) {
