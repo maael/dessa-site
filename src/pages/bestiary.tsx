@@ -127,7 +127,7 @@ export default function Bestiary() {
       <div className="title text-2xl md:text-4xl text-center">
         Encountered {foundMap.size} / {bestiaryData.length}
       </div>
-      <div className="text-center">
+      <div className="text-center px-2">
         <input
           className="bg-blue-800 rounded-md shadow-lg py-2 px-5 mx-auto w-full md:w-1/4 mt-5"
           type="text"
