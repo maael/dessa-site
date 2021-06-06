@@ -13,6 +13,7 @@ module.exports = {
     site_name: title,
     type: 'website',
     locale: 'en_GB',
+    images: [{ url: `${url}images/social-preview.png` }],
   },
   twitter: {
     handle: '@mattaelphick',

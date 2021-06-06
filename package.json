@@ -17,8 +17,8 @@
     }
   },
   "lint-staged": {
-    "*.{json,md,mdx,css}": "yarn prettier",
-    "*.{js,jsx,tsx,ts}": [
+    "*.{js,json,md,mdx,css}": "yarn prettier",
+    "*.{jsx,tsx,ts}": [
       "yarn lint --fix",
       "yarn prettier"
     ]
