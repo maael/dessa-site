@@ -3,8 +3,8 @@ import { useRouter } from 'next/router'
 import Image from 'next/image'
 import Link from 'next/link'
 import classnames from 'classnames'
-import { HiArrowCircleRight, HiEye, HiCog } from 'react-icons/hi'
-import { FaDiscord, FaMapMarkedAlt, FaSpinner, FaGithub, FaReddit } from 'react-icons/fa'
+import { HiArrowCircleRight, HiEye } from 'react-icons/hi'
+import { FaDiscord, FaGithub, FaReddit, FaSkull } from 'react-icons/fa'
 import ConnectionWelcome from '../components/primitives/ConnectionWelcome'
 import Spinner from '../components/primitives/Spinner'
 
@@ -54,7 +54,7 @@ export default function Index() {
         </div>
         <div className="flex flex-col justify-center items-center">
           <div className="title text-4xl">Tools</div>
-          <div className="grid gap-5 md:gap-10 grid-cols-1 lg:grid-cols-3 xl:grid-cols-5 mt-1 place-content-center mr-2 ml-2 md:mr-10 md:ml-10">
+          <div className="grid gap-5 grid-cols-1 xl:grid-cols-6 mt-1 place-content-center mr-2 ml-2 md:mr-10 md:ml-10">
             <Link href="/discord">
               <a className="xl:col-start-2 card">
                 <div className="card-icon-area">
@@ -91,7 +91,7 @@ export default function Index() {
                 <HiArrowCircleRight className="mt-4 text-4xl" />
               </a>
             </Link> */}
-            <Link href="/live-map">
+            {/* <Link href="/live-map">
               <a className="card">
                 <div className="card-icon-area">
                   <FaMapMarkedAlt />
@@ -101,17 +101,29 @@ export default function Index() {
                 </div>
                 <HiArrowCircleRight className="mt-4 text-4xl" />
               </a>
+            </Link> */}
+            <Link href="/bestiary">
+              <a className="xl:col-start-1 card">
+                <div className="card-icon-area">
+                  <FaSkull />
+                </div>
+                <div className="flex-1">
+                  A bestiary of most creatures and enemies in the game, hunt them down and get into combat with them to
+                  tick them off the list, can you find them all?
+                </div>
+                <HiArrowCircleRight className="mt-4 text-4xl" />
+              </a>
             </Link>
-            <Link href="/rotation">
-              <a className="xl:col-start-2 card">
+            {/* <Link href="/rotation">
+              <a className="xl:col-start-1 card">
                 <div className="card-icon-area">
                   <FaSpinner />
                 </div>
                 <div className="flex-1">A very basic rotation tester. Mainly just to show arcDps integration.</div>
                 <HiArrowCircleRight className="mt-4 text-4xl" />
               </a>
-            </Link>
-            <Link href="/debug/raw">
+            </Link> */}
+            {/* <Link href="/debug/raw">
               <a className="card">
                 <div className="card-icon-area">
                   <HiCog />
@@ -122,7 +134,7 @@ export default function Index() {
                 </div>
                 <HiArrowCircleRight className="mt-4 text-4xl" />
               </a>
-            </Link>
+            </Link> */}
             <Link href="https://github.com/maael/dessa-site/issues/new">
               <a className="card">
                 <div className="card-icon-area">

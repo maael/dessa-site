@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 import { Dispatch, SetStateAction, useCallback, useState, useRef, useLayoutEffect } from 'react'
 
 const isBrowser = typeof window !== 'undefined'
@@ -16,6 +18,7 @@ type parserOptions<T> =
 
 export enum Keys {
   FoundSightseeingItems = 'FoundSightseeingItems',
+  FoundBestiary = 'FoundBestiary',
 }
 
 const useLocalStorage = <T>(
