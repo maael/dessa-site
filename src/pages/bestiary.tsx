@@ -3,7 +3,7 @@ import { FaCheckCircle } from 'react-icons/fa'
 import Fuse from 'fuse.js'
 import { toast } from 'react-toastify'
 import useLocalStorage, { Keys } from '../components/hooks/useLocalStorage'
-import useArcTemporary from '../components/hooks/useArcTemporary'
+import useArcBestiary from '../components/hooks/useArcBestiary'
 import useDebounced from '../components/hooks/useDebounced'
 import HeaderNav from '../components/primitives/HeaderNav'
 
@@ -97,6 +97,7 @@ export default function Bestiary() {
       try {
         const data = JSON.parse(msg.data)
         const agName = data.ag_name
+        console.info('name', agName)
         const beast = bestiaryMap.get(agName)
         if (!beast || foundMap.has(beast.pageid)) return
         setFound((f) => {
@@ -114,7 +115,7 @@ export default function Bestiary() {
     },
     [foundMap, setFound]
   )
-  useArcTemporary(msgHandler)
+  useArcBestiary(msgHandler)
   const items = useMemo(() => {
     if (debouncedSearch) {
       const result = fuse.search(debouncedSearch)
