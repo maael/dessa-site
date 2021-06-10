@@ -12,7 +12,12 @@ export default function Discord() {
           <div className="md:col-start-2 xl:col-start-3 col-span-3 xl:col-span-2 flex flex-col justify-center items-center text-center shadow-lg rounded-md bg-blue-900 text-white px-4 py-8">
             <div className="w-1/2 mb-5">
               <div className="aspect-w-16 aspect-h-7 shadow-md rounded-md overflow-hidden">
-                <Image src="/images/discord.png" layout="fill" />
+                <Image src="/images/discord-1.png" layout="fill" />
+              </div>
+            </div>
+            <div className="w-1/2 mb-5">
+              <div className="aspect-w-16 aspect-h-7 shadow-md rounded-md overflow-hidden">
+                <Image src="/images/discord-2.png" layout="fill" />
               </div>
             </div>
             <p className="text-xl font-bold">Features include:</p>
@@ -25,11 +30,11 @@ export default function Discord() {
               <li className="py-2">Includes your character class/specialisation</li>
               <li className="py-2">Includes your location, including correct fractal name</li>
               <li className="py-2">Includes your current play time</li>
+              <li className="py-2">Pictures of the area for the bigger icon!</li>
+              <li className="py-2">Specialization icon as the smaller icon!</li>
             </ol>
             <p className="text-xl font-bold mt-5">Hopefully coming soon features include:</p>
             <ol className="list-decimal pl-8 pr-6 spacing text-left w-full">
-              <li className="py-2">Pictures of the area for the bigger icon!</li>
-              <li className="py-2">Specialization icon as the smaller icon!</li>
               <li className="py-2">Include Fractal level when in a fractal</li>
             </ol>
             <Link href="/#installation">
