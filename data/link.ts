@@ -27,4 +27,6 @@ export const mountMap = {
   6: 'Roller Beetle',
   7: 'Skyscale',
   8: 'Warclaw',
+  9: 'Skiff',
+  10: 'Siege Turtle'
 }
